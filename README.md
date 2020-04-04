@@ -1,57 +1,62 @@
-27 March 2020
-=============
+This source is based on the sample JAVA code available from https://www.usi.gov.au/system-developers/sample-code
 
-This draft release of the sample java app for USI updates the app to work with the 
+It works as with 3PT 
 * USI Service https://3pt.portal.usi.gov.au/Service/v3/UsiCreateService.svc
 * STS Service https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc
 * M2M credentials (which replace AUSkey Device credentials)
 
-This app is configured to use 3PT not PROD.
+Alternatively, see below for PROD which uses:
+* USI Service https://portal.usi.gov.au/Service/v3/UsiCreateService.svc
+* STS Service https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc
 
-It is based on the sample code available from https://www.usi.gov.au/system-developers/sample-code
 
-Important Notes
-===============
+Dependencies (built and tested with)
+============
 
-Java
-----
-Tested with Java 8 and 11
-It will build with Intellij or Eclipse
+* Eclipse 2020-03 (4.15.0)
+  - java-11-openjdk-11
+  - language compliance level: 1.8
+* modified metro jars available at https://github.com/DamienJDev/metro-wsit/releases (java1.8MetroSigAlgFix.7z)
+  - this allows SHA256 to be specified in the call to the S007v1.3 STS as Metro was defaulting to SHA1 which is not supported
+* AUSkey AKM jars - from ATO - copies available in this repo in releases
 
-Dependency - AUSkey ADK jars
-----------
-* abrakm.jar (2.0.0)
-* auskey-dep-1.1.jar (if the file is auskey-dep.jar rename it - required by Eclipse)
+Structure
+=========
 
-Dependency - Metro jars
-----------
-* webservices-rt.jar
-* webservices-api.jar
-* webservices-extra.jar
-* Available at https://github.com/DamienJDev/metro-wsit/releases (java1.8MetroSigAlgFix.7z
- or java11MetroSigAlgFix.7z)
-This allows SHA256 to be specified in the call to the S007v1.3 STS as Metro was defaulting to SHA1 which is not supported.
+* keystore 
+  - the M2M credentials used in testing 3PT
+* src/usi 
+  - the USI sample app
+* src/au 
+  - the pre-generated output of wsdl2java (see RegenerateClientJava)
+  - the files are the same for 3PT or PROD so there is no need to regenerate (unless the service definition changes)
+* src/RegenerateClientJava 
+  - only used to generate WSDL java src - if needed
+  - run for usage
+  - requires CXF from https://cxf.apache.org/download.html
+* src/UsiCreateService_3PT.wsdl and UsiCreateService_PROD.wsdl
+* src/META-INF
+  - the wsdl definition files
+  - contains numerous changes to support *client* side calls
 
-WSDL
-----
-* contains numerous changes to support *client* side calls
-* Uses the client WSDL src\META-INF\wsdl\UsiCreateService_CLIENT.wsdl
-* pre-generated files for the USI service are already included in src\au\gov\usi\_2018\ws\servicepolicy
-* files are generated using apache-cxf-3.3.5 - see src\RegenerateClientJava.bat
-* If not using src\RegenerateClientJava.bat
-  - For prod, simply replace the file src\META-INF\wsdl\UsiCreateService_CLIENT.wsdl with src\UsiCreateService_PROD.wsdl
-  - For 3pt, simply replace the file src\META-INF\wsdl\UsiCreateService_CLIENT.wsdl with src\UsiCreateService_3PT.wsdl
+3PT vs PROD
+===========
 
-UsiServiceChannel.java
------------------
-To switch between local and cloud mode (ActAs/Applies to) see the line
-- 	private static boolean useActAs = false;
+* to use 3PT copy src/UsiCreateService_3PT.wsdl to src/META-INF/wsdl/UsiCreateService_CLIENT.wsdl
+* to use PROD copy src/UsiCreateService_PROD.wsdl to src/META-INF/wsdl/UsiCreateService_CLIENT.wsdl
 
-Expected result (TEST)
----------------
-The USI service will return failure due to incorrect data but it does pass all authentication
+Expected results from run
+================
 
-<<<<<<<<<<<<<<<<
+***********************************************************
+WARNING: ***** Using proxy [localhost:8080] *****
+***********************************************************
+[main] INFO au.gov.abr.akm.credential.store.ABRKeyStoreSerializer - XML keystore loading
+[main] INFO au.gov.abr.akm.credential.store.ABRKeyStoreSerializer - 2 credentials loaded in 125 milliseconds.
+[main] INFO au.gov.abr.akm.credential.store.ABRCredential - Initialising X509Delegate
+[main] INFO au.gov.abr.akm.credential.store.ABRCredential - checked to see if credential is due to be renewed - is not due yet
+[main] INFO au.gov.abr.akm.credential.store.ABRKeyStoreSerializer - XML keystore loading
+[main] INFO au.gov.abr.akm.credential.store.ABRKeyStoreSerializer - 2 credentials loaded in 17 milliseconds.
 ----------Printing Create USI Request Result and USI
 Failure
 null
@@ -59,5 +64,12 @@ null
 Failed to create USI record, multiple existing records were found.
 ----------Cannot call Verify, due to errors from Create.
 
-Process finished with exit code 0
->>>>>>>>>>>>>>>>
+Notes
+=====
+
+1. UsiServiceChannel.java
+
+This is is set to use a proxy (BURP to capture http traffic).
+
+To switch between local and cloud mode (ActAs/Applies to) see the line
+- 	private static boolean useActAs = false;

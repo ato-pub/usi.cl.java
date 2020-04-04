@@ -257,10 +257,15 @@ public class UsiServiceChannel {
 	}
 	
 	public static void EnableProxy_FOR_DEBUG_ONLY(){
+		String MY_PROXY_HOST = "localhost";
+		String MY_PROXY_PORT = "8080";
 		//This method assumes:
 		//	* you're running the proxy on localhost:8080 and your've added its SSL inspection cert to the java keystore
-		System.setProperty("https.proxyHost", "localhost");
-		System.setProperty("https.proxyPort", "8080");
+		System.out.println("***********************************************************");
+		System.out.println("WARNING: ***** Using proxy [" + MY_PROXY_HOST + ":" + MY_PROXY_PORT + "] *****");
+		System.out.println("***********************************************************");
+		System.setProperty("https.proxyHost", MY_PROXY_HOST);
+		System.setProperty("https.proxyPort", MY_PROXY_PORT);
 		System.setProperty("https.nonProxyHosts", "localhost|127.0.0.1");
 		//System.setProperty("javax.net.ssl.trustStore", "E:\\pf\\Java\\jdk\\jre\\lib\\security\\cacerts");
 		//System.setProperty("javax.net.ssl.trustStorePassword", "changeit");

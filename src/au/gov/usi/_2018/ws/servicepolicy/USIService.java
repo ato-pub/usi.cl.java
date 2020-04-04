@@ -18,7 +18,7 @@ import javax.xml.ws.Service;
  *
  */
 @WebServiceClient(name = "USIService",
-                  wsdlLocation = "src\\META-INF\\wsdl\\UsiCreateService_CLIENT.wsdl",
+                  wsdlLocation = "src/META-INF/wsdl/UsiCreateService_CLIENT.wsdl",
                   targetNamespace = "http://usi.gov.au/2018/ws/servicepolicy")
 public class USIService extends Service {
 
@@ -27,14 +27,14 @@ public class USIService extends Service {
     public final static QName SERVICE = new QName("http://usi.gov.au/2018/ws/servicepolicy", "USIService");
     public final static QName WS2007FederationHttpBindingIUSIService = new QName("http://usi.gov.au/2018/ws/servicepolicy", "WS2007FederationHttpBinding_IUSIService");
     static {
-        URL url = USIService.class.getResource("src\\META-INF\\wsdl\\UsiCreateService_CLIENT.wsdl");
+        URL url = USIService.class.getResource("src/META-INF/wsdl/UsiCreateService_CLIENT.wsdl");
         if (url == null) {
-            url = USIService.class.getClassLoader().getResource("src\\META-INF\\wsdl\\UsiCreateService_CLIENT.wsdl");
+            url = USIService.class.getClassLoader().getResource("src/META-INF/wsdl/UsiCreateService_CLIENT.wsdl");
         }
         if (url == null) {
             java.util.logging.Logger.getLogger(USIService.class.getName())
                 .log(java.util.logging.Level.INFO,
-                     "Can not initialize the default wsdl from {0}", "src\\META-INF\\wsdl\\UsiCreateService_CLIENT.wsdl");
+                     "Can not initialize the default wsdl from {0}", "src/META-INF/wsdl/UsiCreateService_CLIENT.wsdl");
         }
         WSDL_LOCATION = url;
     }

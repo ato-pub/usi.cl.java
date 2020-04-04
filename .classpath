@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/abrakm.jar"/>
+	<classpathentry kind="lib" path="lib/auskey-dep-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/webservices-api.jar"/>
+	<classpathentry kind="lib" path="lib/webservices-extra.jar"/>
+	<classpathentry kind="lib" path="lib/webservices-rt.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
