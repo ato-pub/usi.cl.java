@@ -1,0 +1,9 @@
+# Project specific stuff
+
+7zips/
+dep/
+tmp/
+bin/
+obj/
+
+*.Log

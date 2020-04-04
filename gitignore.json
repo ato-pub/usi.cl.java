@@ -1,0 +1,20 @@
+{
+    "sources": [{
+            "uri": "https://raw.githubusercontent.com/github/gitignore/master/$FILE.gitignore",
+            "desc": "STANDARD .gitignore files from github. For C, .cmd files are excluded - use .bat if checkin is required",
+            "files": [
+                "Global/macOS", "Global/Windows", "Global/Linux",
+                "Global/JetBrains", "Global/Eclipse", "Global/VisualStudioCode", "Global/Xcode", 
+                "D", "C", "C++", "CMake", "Node",
+                "VisualStudio",
+                "Android", "Objective-C", "Swift"
+            ]
+        }, {
+            "uri": "file://./$FILE.gitignore",
+            "desc": ".gitignore customizations for the project",
+            "files": [
+                "local"
+            ]
+        }
+    ]
+}
