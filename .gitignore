@@ -1138,6 +1138,7 @@ dep/
 tmp/
 bin/
 obj/
+*.jar
 
 *.Log
 
