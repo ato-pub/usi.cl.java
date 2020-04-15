@@ -1,6 +1,6 @@
 This source is based on the sample JAVA code available from https://www.usi.gov.au/system-developers/sample-code
 
-It works as with 3PT 
+It works as with 3PT
 * USI Service https://3pt.portal.usi.gov.au/Service/v3/UsiCreateService.svc
 * STS Service https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc
 * M2M credentials (which replace AUSkey Device credentials)
@@ -23,14 +23,14 @@ Dependencies (built and tested with)
 Structure
 =========
 
-* keystore 
+* keystore
   - the M2M credentials used in testing 3PT
-* src/usi 
+* src/usi
   - the USI sample app
-* src/au 
+* src/au
   - the pre-generated output of wsdl2java (see RegenerateClientJava)
   - the files are the same for 3PT or PROD so there is no need to regenerate (unless the service definition changes)
-* src/RegenerateClientJava 
+* src/RegenerateClientJava
   - only used to generate WSDL java src - if needed
   - run for usage
   - requires CXF from https://cxf.apache.org/download.html
@@ -72,4 +72,9 @@ Notes
 This is is set to use a proxy (BURP to capture http traffic).
 
 To switch between local and cloud mode (ActAs/Applies to) see the line
-- 	private static boolean useActAs = false;
+-   private static boolean useActAs = false;
+
+2. wsdl2java.bat
+
+If you see "'f' is not recognized as an internal or external command ...", there is a type in the file.
+Line 50: "f %JAVA_VERSION% GTR 8 (" should be if

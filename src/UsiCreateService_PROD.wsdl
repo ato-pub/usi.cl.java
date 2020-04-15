@@ -32,6 +32,13 @@
                 <sp:Basic256/>
               </wsp:Policy>
             </sp:AlgorithmSuite>
+            <!-- 
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256Sha256Rsa15/>
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            -->
             <sp:Layout>
               <wsp:Policy>
                 <sp:Strict/>
