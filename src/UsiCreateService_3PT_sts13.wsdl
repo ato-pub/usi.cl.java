@@ -57,12 +57,12 @@
           <wsp:Policy>
             <sp:IssuedToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
               <!--Issuer xmlns="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-                <Address xmlns="http://www.w3.org/2005/08/addressing">https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc</Address>
+                <Address xmlns="http://www.w3.org/2005/08/addressing">https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc</Address>
                 <Metadata xmlns="http://www.w3.org/2005/08/addressing">
                   <Metadata xmlns="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                     <wsx:MetadataSection xmlns="">
                       <wsx:MetadataReference>
-                        <Address xmlns="http://www.w3.org/2005/08/addressing">https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc/mex</Address>
+                        <Address xmlns="http://www.w3.org/2005/08/addressing">https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc/mex</Address>
                       </wsx:MetadataReference>
                     </wsx:MetadataSection>
                   </Metadata>
@@ -108,8 +108,8 @@
                 shareToken="true"
                 renewExpiredToken="true"
                 wstVersion="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
-                endpoint="https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc"
-                wsdlLocation="https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc"
+                endpoint="https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc"
+                wsdlLocation="https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc"
                 serviceName="SecurityTokenService"
                 portName="S007SecurityTokenServiceEndpoint"
                 namespace="http://schemas.microsoft.com/ws/2008/06/identity/securitytokenservice">
@@ -153,7 +153,7 @@
 
       <xs:element name="GetCountries" type="GetCountriesType"/>
       <xs:element name="GetCountriesResponse" type="GetCountriesResponseType" />
-
+      
       <xs:complexType name="LocateUSIType">
         <xs:sequence>
           <xs:element name="OrgCode" type="OrgCodeType" />
@@ -331,7 +331,7 @@
           <xs:element name="IsCurrent" type="xs:boolean"/>
         </xs:sequence>
       </xs:complexType>
-
+      
       <xs:complexType name="ApplicationType">
         <xs:sequence>
           <xs:element name="ApplicationId" type="ApplicationIDType" />
@@ -647,7 +647,7 @@
       </xs:complexType>
 
       <xs:complexType name="ContactDetailsType">
-        <xs:sequence>
+        <xs:sequence>          
           <xs:element name="CountryOfResidenceCode">
             <xs:simpleType>
               <xs:restriction base="xs:string">
@@ -884,7 +884,7 @@
           </xs:extension>
         </xs:complexContent>
       </xs:complexType>
-
+      
       <xs:complexType name="PersonalDetailsLocateType">
         <xs:sequence>
           <xs:element name="Gender">
@@ -895,7 +895,7 @@
                 <xs:enumeration value="X" />
               </xs:restriction>
             </xs:simpleType>
-          </xs:element>
+          </xs:element>               
           <xs:element name="FirstName" minOccurs="0">
             <xs:simpleType>
               <xs:restriction base="xs:string">
@@ -916,7 +916,7 @@
                 <xs:maxLength value="40" />
               </xs:restriction>
             </xs:simpleType>
-          </xs:element>
+          </xs:element>         
             <xs:element name="SingleName" minOccurs="0">
               <xs:simpleType>
                 <xs:restriction base="xs:string">
@@ -934,7 +934,7 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
-
+      
       <xs:complexType name="PersonalDetailsUpdateType">
         <xs:sequence>
           <xs:element name="Gender" minOccurs="0">

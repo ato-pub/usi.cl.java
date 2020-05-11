@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+
+function usage {
+  echo "usage:";
+  echo   "$0 3PT|PROD 12|13";
+  echo   "  generate files for 3PT or PROD";
+  echo   "  using STS 1.2 (sha1) or STS 1.3 (sha256)";
+  exit 1;
+}
+
 [[ "$JAVA_HOME" == "" ]] && {
   echo "JAVA_HOME not set";
   exit 1;
@@ -8,22 +17,16 @@
   exit 1;
 }
 
-WSDL_CLIENT="UsiCreateService_CLIENT.wsdl"
+[[ "$1" == "3PT" ]] || [[ "$1" == "PROD" ]] || usage
+[[ "$2" == "12" ]] || [[ "$2" == "13" ]] || usage
 
-WSDL_TEST="UsiCreateService_3PT.wsdl"
-WSDL_PROD="UsiCreateService_PROD.wsdl"
-WSDL=
-[[ "$1" == "t" ]] && { WSDL="$WSDL_TEST"; }
-[[ "$1" == "p" ]] && { WSDL="$WSDL_PROD"; }
-[[ "$WSDL" == "" ]] && {
-  echo "usage:"; 
-  echo   "$0 t|p";
-  echo   "generate files for test (UsiCreateService_3PT.wsdl) or prod (UsiCreateService_PROD.wsdl)";
-  exit 1;
-}
+WSDL="UsiCreateService_$1_sts$2.wsdl"
+WSDL_CLIENT="UsiCreateService_CLIENT.wsdl"
 
 echo "Using $WSDL"
 echo "cp $WSDL" "META-INF/wsdl/$WSDL_CLIENT"
 cp "$WSDL" "META-INF/wsdl/$WSDL_CLIENT"
-echo "$CXF_HOME/wsdl2java" -V -b "META-INF/wsdl/cxf_bindings.config" -client -wsdlLocation "src/META-INF/wsdl/$WSDL_CLIENT" "META-INF/wsdl/$WSDL_CLIENT"
-"$CXF_HOME/wsdl2java" -V -b "META-INF/wsdl/cxf_bindings.config" -client -wsdlLocation "src/META-INF/wsdl/$WSDL_CLIENT" "META-INF/wsdl/$WSDL_CLIENT"
+[[ "$3" == "" ]] && {
+  echo "$CXF_HOME/wsdl2java" -V -b "META-INF/wsdl/cxf_bindings.config" -client -wsdlLocation "src/META-INF/wsdl/$WSDL_CLIENT" "META-INF/wsdl/$WSDL_CLIENT"
+  "$CXF_HOME/wsdl2java" -V -b "META-INF/wsdl/cxf_bindings.config" -client -wsdlLocation "src/META-INF/wsdl/$WSDL_CLIENT" "META-INF/wsdl/$WSDL_CLIENT"
+}

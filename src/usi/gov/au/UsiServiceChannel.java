@@ -58,11 +58,12 @@ public class UsiServiceChannel {
     private static String ORGCODE_CLOUD = "VA1802";
     private static String ORGCODE_LOCAL = "VA1803";
 
-	private static boolean useActAs = false;
-	private static String M2M_ALIAS = useActAs ? M2M_ALIAS_CLOUD : M2M_ALIAS_LOCAL;
-    private static String ORGCODE = useActAs ? ORGCODE_CLOUD : ORGCODE_LOCAL;
+	private static boolean useSts13 = false;
+	private static boolean useCloud = false;
+	private static String M2M_ALIAS = useCloud ? M2M_ALIAS_CLOUD : M2M_ALIAS_LOCAL;
+    private static String ORGCODE = useCloud ? ORGCODE_CLOUD : ORGCODE_LOCAL;
 
-	final private static String ENDPOINT = "https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc";
+	final private static String ENDPOINT = "https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1." + (useSts13 ? "3" : "2") + "/service.svc";
 	final private static String WSDL_LOCATION = ENDPOINT;
 	final private static String STS_NAMESPACE ="http://schemas.microsoft.com/ws/2008/06/identity/securitytokenservice";
 	final private static String STS_SERVICE_NAME = "SecurityTokenService";
@@ -75,7 +76,8 @@ public class UsiServiceChannel {
 	public static IUSIService GetNewClient(String orgCode){
 		try {
 		skipSSLVerification();
-		EnableProxy_FOR_DEBUG_ONLY();
+		soapTracing();
+		//EnableProxy_FOR_DEBUG_ONLY();
 
 		PrivateKey privateKey = GetAUSkey_PrivateKey();
 		X509Certificate certificate = GetAUSkey_Cert();
@@ -85,10 +87,12 @@ public class UsiServiceChannel {
 		DefaultSTSIssuedTokenConfiguration config = new DefaultSTSIssuedTokenConfiguration();
 		Map<String, Object> otherOptions = config.getOtherOptions();
 
-        config.setSignatureAlgorithm("SHA256withRSA");
+        if (useSts13) {
+        	config.setSignatureAlgorithm("SHA256withRSA");
+        }
 
 	    //config.setKeySize(256);
-		if (useActAs) {
+		if (useCloud) {
 			// can put the ActAs token here or below
 			Token actAs = getActAs();
 			otherOptions.put(STSIssuedTokenConfiguration.ACT_AS, actAs);
@@ -216,7 +220,7 @@ public class UsiServiceChannel {
 		requestContext.put(XWSSConstants.CERTIFICATE_PROPERTY, certificate);
 		requestContext.put(XWSSConstants.PRIVATEKEY_PROPERTY, privateKey);
 
-		if (useActAs) {
+		if (useCloud) {
 			// or can do above
 			//Token actAs = getActAs();
 			//requestContext.put(STSIssuedTokenConfiguration.ACT_AS, actAs);
@@ -254,6 +258,15 @@ public class UsiServiceChannel {
 		XMLStreamReader reader = XMLInputFactory.newInstance().createXMLStreamReader(new StringReader(actAs));
 		Element actAsElt = SAMLUtil.createSAMLAssertion(reader);
 		return new GenericToken(actAsElt);
+	}
+	
+	public static void soapTracing() {
+		// Suggested by pwillia6  (https://github.com/bartland-usi/sample-java/issues/4)
+		System.setProperty("com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump", "true"); 
+		System.setProperty("com.sun.xml.internal.ws.transport.http.client.HttpTransportPipe.dump", "true"); 
+		System.setProperty("com.sun.xml.ws.transport.http.HttpAdapter.dump", "true"); 
+		System.setProperty("com.sun.xml.internal.ws.transport.http.HttpAdapter.dump", "true"); 
+		System.setProperty("com.sun.xml.ws.transport.http.HttpAdapter.dumpTreshold", "999999");
 	}
 	
 	public static void EnableProxy_FOR_DEBUG_ONLY(){
