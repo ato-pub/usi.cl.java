@@ -1,0 +1,72 @@
+<project name="USI-sample" default="jar" basedir=".">
+
+  <property name="src.dir" value="src"/>
+  <property name="lib.dir" value="lib"/>
+  <property name="target.dir" value="target"/>
+  <property name="classes.dir" value="classes"/>
+  <property name="jar.file" value="USI-sample.jar"/>
+
+  <target name="getjars">
+    <exec executable="gh">
+      <arg value="release"/>
+      <arg value="download"/>
+      <arg value="0.1"/>
+      <arg value="-p"/>
+      <arg value="*.jar"/>
+      <arg value="--dir"/>
+      <arg value="lib"/>
+      <arg value="--repo"/>
+      <arg value="bartland-usi/sample-java"/>
+    </exec>
+  </target>
+
+  <path id="libcp">
+    <fileset dir="${target.dir}/lib">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="clean">
+    <delete dir="${target.dir}" verbose="true"/>
+  </target>
+
+  <target name="prepare" depends="clean">
+    <mkdir dir="${target.dir}"/>
+    <mkdir dir="${target.dir}/${lib.dir}"/>
+    <mkdir dir="${target.dir}/${classes.dir}"/>
+  </target>
+
+  <target name="compile" depends="prepare">
+    <copy todir="${target.dir}/${lib.dir}">
+      <fileset dir="${lib.dir}">
+        <include name="*.jar"/>
+      </fileset>
+    </copy>
+
+    <javac destdir="${target.dir}/${classes.dir}">
+      <src path="${src.dir}"/>
+      <classpath refid="libcp"/>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile">
+    <jar  destfile="${target.dir}/${jar.file}.jar"
+          basedir="${target.dir}"
+          manifest="${src.dir}/META-INF/MANIFEST.MF"
+    />
+  </target>
+
+  <target name="runUSITest" depends="compile">
+    <java fork="true" classname="usi.gov.au.USITest">
+      <classpath>
+        <fileset dir="${target.dir}/${lib.dir}">
+          <include name="*.jar"/>
+        </fileset>
+        <dirset dir="${target.dir}">
+          <include name="${classes.dir}"/>
+        </dirset>
+      </classpath>
+    </java>
+  </target>
+
+</project>

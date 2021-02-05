@@ -8,3 +8,9 @@ obj/
 *.jar
 
 *.Log
+*.7z
+*.zip
+*.tar
+
+# ant build.xml puts prepare/compile/jar outputs in target/
+target

@@ -20,12 +20,13 @@ function usage {
 [[ "$1" == "3PT" ]] || [[ "$1" == "PROD" ]] || usage
 [[ "$2" == "12" ]] || [[ "$2" == "13" ]] || usage
 
-WSDL="UsiCreateService_$1_sts$2.wsdl"
+srcroot="wsdls/usiv3"
+WSDL="UsiService_$1_sts$2.wsdl"
 WSDL_CLIENT="UsiCreateService_CLIENT.wsdl"
 
-echo "Using $WSDL"
-echo "cp $WSDL" "META-INF/wsdl/$WSDL_CLIENT"
-cp "$WSDL" "META-INF/wsdl/$WSDL_CLIENT"
+echo "Using $srcroot/$WSDL"
+echo "cp $srcroot/$WSDL" "META-INF/wsdl/$WSDL_CLIENT"
+cp "$srcroot/$WSDL" "META-INF/wsdl/$WSDL_CLIENT"
 [[ "$3" == "" ]] && {
   echo "$CXF_HOME/wsdl2java" -V -b "META-INF/wsdl/cxf_bindings.config" -client -wsdlLocation "src/META-INF/wsdl/$WSDL_CLIENT" "META-INF/wsdl/$WSDL_CLIENT"
   "$CXF_HOME/wsdl2java" -V -b "META-INF/wsdl/cxf_bindings.config" -client -wsdlLocation "src/META-INF/wsdl/$WSDL_CLIENT" "META-INF/wsdl/$WSDL_CLIENT"

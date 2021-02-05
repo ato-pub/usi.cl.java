@@ -11,6 +11,15 @@ Alternatively, see below for PROD which uses:
 * STS Service https://softwareauthorisations.ato.gov.au/R3.0/S007v1.2/service.svc OR
 * STS Service https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc
 
+Building
+========
+
+Either use
+* IDE - use gh to fetch the jars (see comment in build)
+* ANT - see build
+
+Notes on contributions:
+1. binaries are banned (use gh)
 
 Dependencies (built and tested with)
 ============
@@ -23,7 +32,13 @@ Dependencies (built and tested with)
 * If using STS v1.3
     - modified metro jars available at https://github.com/DamienJDev/metro-wsit/releases (java1.8MetroSigAlgFix.7z)
     - this allows SHA256 to be specified in the call to the S007v1.3 STS as Metro was defaulting to SHA1 which is not supported
-* AUSkey AKM jars - from ATO - copies available for convenience in this repo in Releases
+* AUSkey AKM jars
+    - These are from the Java SDK of https://www.sbr.gov.au/digital-service-providers
+    - copies used to be hosted by USI Office (as non-SBR providers)
+    - for convenience copies are in this repo in Releases
+* gh from https://github.com/cli/cli
+    - used in the build script - see build.sh/build.bat
+    - used to fetch the dependent jars fromm the repository Releases
 
 Structure
 =========

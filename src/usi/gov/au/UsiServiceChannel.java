@@ -165,12 +165,12 @@ public class UsiServiceChannel {
 		try
 		{
 			File keystorefile = new File(M2M_KEYSTORE).getAbsoluteFile();
-			FileInputStream fileInputStreamKeystore = new FileInputStream(keystorefile);
 
 			if (!keystorefile.exists()) {
 				throw new FileNotFoundException(keystorefile.getCanonicalPath());
 			}
 
+			FileInputStream fileInputStreamKeystore = new FileInputStream(keystorefile);
 			ABRKeyStore keyStore = new ABRKeyStore(fileInputStreamKeystore);
 	
 			ABRCredential abrCredential = keyStore.getCredential(M2M_ALIAS);
@@ -189,11 +189,12 @@ public class UsiServiceChannel {
 		try
 		{
 			File keystorefile = new File(M2M_KEYSTORE).getAbsoluteFile();
-			FileInputStream fileInputStreamKeystore = new FileInputStream(keystorefile);
 
 			if (!keystorefile.exists()) {
 				throw new FileNotFoundException(keystorefile.getCanonicalPath());
 			}
+
+			FileInputStream fileInputStreamKeystore = new FileInputStream(keystorefile);
 
 			ABRProperties.setSoftwareInfo(strOrganisation, strProduct, strVersion, strSoftwareTimeStamp);
 			ABRProperties keystoreProperties = new ABRProperties();
