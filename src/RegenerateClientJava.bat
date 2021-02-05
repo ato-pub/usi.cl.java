@@ -9,8 +9,6 @@ if "%CXF_HOME%" == "" (
 )
 
 
-set "WSDL_TEST=UsiCreateService_3PT.wsdl"
-set "WSDL_PROD=UsiCreateService_PROD.wsdl"
 set "WSDL="
 if "%1" == "3PT" set "WSDLenv=3PT"
 if "%1" == "PROD" set "WSDLenv=PROD"
@@ -19,12 +17,13 @@ if "%2" == "13" set "WSDLsts=13"
 if "%WSDLenv%" == "" goto :usage
 if "%WSDLsts%" == "" goto :usage
 
+set "srcroot=wsdls/usiv4"
+set "WSDL=UsiService_%WSDLenv%_sts%WSDLsts%.wsdl"
 set "WSDL_CLIENT=UsiCreateService_CLIENT.wsdl"
-set "WSDL=UsiCreateService_%WSDLenv%_sts%WSDLsts%.wsdl"
 
-echo Using %WSDL%
-echo copy "%WSDL%" "META-INF\wsdl\%WSDL_CLIENT%"
-copy /y "%WSDL%" "META-INF\wsdl\%WSDL_CLIENT%"
+echo Using %srcroot%\%WSDL%
+echo copy "%srcroot%\%WSDL%" "META-INF\wsdl\%WSDL_CLIENT%"
+copy /y "%srcroot%\%WSDL%" "META-INF\wsdl\%WSDL_CLIENT%"
 if not "%3" == "" goto :eof
 echo "%CXF_HOME%\bin\wsdl2java.bat" -V -b "META-INF\wsdl\cxf_bindings.config" -client -wsdlLocation "src/META-INF/wsdl/%WSDL_CLIENT%" "META-INF\wsdl\%WSDL_CLIENT%"
 "%CXF_HOME%\bin\wsdl2java.bat" -V -b "META-INF\wsdl\cxf_bindings.config" -client -wsdlLocation "src/META-INF/wsdl/%WSDL_CLIENT%" "META-INF\wsdl\%WSDL_CLIENT%"

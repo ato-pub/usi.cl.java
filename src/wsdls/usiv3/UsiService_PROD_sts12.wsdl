@@ -32,8 +32,14 @@
                 <sp:Basic256/>
               </wsp:Policy>
             </sp:AlgorithmSuite>
-            <!--
+            <!-- some possible values
             <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256/>
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            original
+            <sp:AlgorithmSuite signatureAlgorithm="SHA256withRSA">
               <wsp:Policy>
                 <sp:Basic256Sha256Rsa15/>
               </wsp:Policy>

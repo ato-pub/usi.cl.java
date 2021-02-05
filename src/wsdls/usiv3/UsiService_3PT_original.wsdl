@@ -87,27 +87,41 @@
     </wsp:ExactlyOne>
   </wsp:Policy>
   <wsdl:types>
-    <xs:schema targetNamespace="http://usi.gov.au/2018/ws" elementFormDefault="qualified" xmlns="http://usi.gov.au/2018/ws" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:schema targetNamespace="http://usi.gov.au/2018/ws" 
+        elementFormDefault="qualified" 
+        xmlns="http://usi.gov.au/2018/ws" 
+        xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
       <xs:element name="BulkUpload" type="BulkUploadType" />
       <xs:element name="BulkUploadResponse" type="BulkUploadResponseType" />
+
       <xs:element name="BulkUploadRetrieve" type="BulkUploadRetrieveType" />
       <xs:element name="BulkUploadRetrieveResponse" type="BulkUploadRetrieveResponseType" />
+
       <xs:element name="CreateUSI" type="CreateUSIType" />
       <xs:element name="CreateUSIResponse" type="CreateUSIResponseType" />
+
       <xs:element name="VerifyUSI" type="VerifyUSIType" />
       <xs:element name="VerifyUSIResponse" type="VerifyUSIResponseType" />
+
       <xs:element name="BulkVerifyUSI" type="BulkVerifyUSIType" />
       <xs:element name="BulkVerifyUSIResponse" type="BulkVerifyUSIResponseType" />
+
       <xs:element name="GetNonDvsDocumentTypesResponse" type="GetNonDvsDocumentTypesResponseType" />
       <xs:element name="GetNonDvsDocumentTypes" type="GetNonDvsDocumentTypesType" />
+
       <xs:element name="UpdateUSIContactDetails" type="UpdateUSIContactDetailsType" />
       <xs:element name="UpdateUSIContactDetailsResponse" type="UpdateUSIContactDetailsResponseType" />
+
       <xs:element name="UpdateUSIPersonalDetails" type="UpdateUSIPersonalDetailsType" />
       <xs:element name="UpdateUSIPersonalDetailsResponse" type="UpdateUSIPersonalDetailsResponseType" />
+
       <xs:element name="LocateUSI" type="LocateUSIType" />
       <xs:element name="LocateUSIResponse" type="LocateUSIResponseType" />
+
       <xs:element name="GetCountries" type="GetCountriesType" />
       <xs:element name="GetCountriesResponse" type="GetCountriesResponseType" />
+
       <xs:complexType name="LocateUSIType">
         <xs:sequence>
           <xs:element name="OrgCode" type="OrgCodeType" />
@@ -116,6 +130,7 @@
           <xs:element name="ContactDetails" type="ContactDetailsLocateType" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="LocateUSIResponseType">
         <xs:sequence>
           <xs:element name="Result" type="LocateResultType" />
@@ -124,12 +139,14 @@
           <xs:element name="Errors" minOccurs="0">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="Error" type="ErrorType" maxOccurs="unbounded" />
+                <xs:element name="Error" type="ErrorType" maxOccurs="unbounded">
+                </xs:element>
               </xs:sequence>
             </xs:complexType>
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:simpleType name="LocateResultType">
         <xs:restriction base="xs:string">
           <xs:enumeration value="Exact" />
@@ -140,6 +157,7 @@
           <xs:enumeration value="NoIdenticalStrongPartial" />
         </xs:restriction>
       </xs:simpleType>
+
       <xs:complexType name="UpdateUSIPersonalDetailsType">
         <xs:sequence>
           <xs:element name="OrgCode" type="OrgCodeType" />
@@ -169,6 +187,7 @@
           <xs:element name="NonDvsDocumentTypeOther" type="NonDvsDocumentTypeOtherType" minOccurs="0" maxOccurs="1" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="UpdateUSIPersonalDetailsResponseType">
         <xs:sequence>
           <xs:element name="Result">
@@ -191,12 +210,14 @@
           <xs:element name="Errors" minOccurs="0">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="Error" type="ErrorType" maxOccurs="unbounded" />
+                <xs:element name="Error" type="ErrorType" maxOccurs="unbounded">
+                </xs:element>
               </xs:sequence>
             </xs:complexType>
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="UpdateUSIContactDetailsResponseType">
         <xs:sequence>
           <xs:element name="Result">
@@ -210,12 +231,14 @@
           <xs:element name="Errors" minOccurs="0">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="Error" type="ErrorType" maxOccurs="unbounded" />
+                <xs:element name="Error" type="ErrorType" maxOccurs="unbounded">
+                </xs:element>
               </xs:sequence>
             </xs:complexType>
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="UpdateUSIContactDetailsType">
         <xs:sequence>
           <xs:element name="OrgCode" type="OrgCodeType" />
@@ -224,11 +247,13 @@
           <xs:element name="ContactDetailsUpdate" type="ContactDetailsUpdateType" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="GetNonDvsDocumentTypesType">
         <xs:sequence>
           <xs:element name="OrgCode" type="OrgCodeType" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="GetNonDvsDocumentTypesResponseType">
         <xs:sequence>
           <xs:element name="NonDvsDocumentTypes">
@@ -240,6 +265,7 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="NonDvsDocumentTypeType">
         <xs:sequence>
           <xs:element name="Id" type="xs:int" />
@@ -247,11 +273,13 @@
           <xs:element name="SortOrder" type="xs:int" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="GetCountriesType">
         <xs:sequence>
           <xs:element name="OrgCode" type="OrgCodeType" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="GetCountriesResponseType">
         <xs:sequence>
           <xs:element name="Countries">
@@ -263,6 +291,7 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="CountryDetailsType">
         <xs:sequence>
           <xs:element name="CountryCode" type="xs:string" />
@@ -270,6 +299,7 @@
           <xs:element name="IsCurrent" type="xs:boolean" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="ApplicationType">
         <xs:sequence>
           <xs:element name="ApplicationId" type="ApplicationIDType" />
@@ -282,24 +312,28 @@
           <xs:element name="NonDvsDocumentTypeOther" type="NonDvsDocumentTypeOtherType" minOccurs="0" maxOccurs="1" nillable="true" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:simpleType name="NonDvsDocumentTypeOtherType">
         <xs:restriction base="xs:string">
           <xs:maxLength value="50" />
           <xs:minLength value="1" />
         </xs:restriction>
       </xs:simpleType>
+
       <xs:simpleType name="UserReferenceType">
         <xs:restriction base="xs:string">
           <xs:maxLength value="40" />
           <xs:minLength value="1" />
         </xs:restriction>
       </xs:simpleType>
+
       <xs:simpleType name="USIType">
         <xs:restriction base="xs:string">
           <xs:length value="10" />
           <xs:pattern value="[A-HJ-NP-Z2-9]*" />
         </xs:restriction>
       </xs:simpleType>
+
       <xs:simpleType name="OrgCodeType">
         <xs:restriction base="xs:string">
           <xs:minLength value="1" />
@@ -307,21 +341,25 @@
           <xs:pattern value="[A-Za-z0-9]*" />
         </xs:restriction>
       </xs:simpleType>
+
       <xs:simpleType name="RequestIDType">
         <xs:restriction base="xs:string">
           <xs:maxLength value="20" />
         </xs:restriction>
       </xs:simpleType>
+
       <xs:simpleType name="ApplicationIDType">
         <xs:restriction base="xs:string">
           <xs:maxLength value="20" />
         </xs:restriction>
       </xs:simpleType>
+
       <xs:simpleType name="BulkReceiptNumberType">
         <xs:restriction base="xs:string">
           <xs:length value="36" />
         </xs:restriction>
       </xs:simpleType>
+
       <xs:complexType name="BirthCertificateDocumentType">
         <xs:complexContent>
           <xs:extension base="DVSDocumentType">
@@ -351,6 +389,7 @@
           </xs:extension>
         </xs:complexContent>
       </xs:complexType>
+
       <xs:complexType name="BulkUploadType">
         <xs:sequence>
           <xs:element name="OrgCode" type="OrgCodeType" />
@@ -365,7 +404,8 @@
           <xs:element name="Applications">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="Application" type="ApplicationType" maxOccurs="500" />
+                <xs:element name="Application" type="ApplicationType" maxOccurs="500">
+                </xs:element>
               </xs:sequence>
             </xs:complexType>
             <xs:key name="ApplicationKey">
@@ -375,11 +415,13 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="BulkUploadResponseType">
         <xs:sequence>
           <xs:element name="ReceiptNumber" type="BulkReceiptNumberType" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="BulkVerifyUSIType">
         <xs:sequence>
           <xs:element name="OrgCode" type="OrgCodeType" />
@@ -393,7 +435,8 @@
           <xs:element name="Verifications">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="Verification" type="VerificationType" maxOccurs="500" />
+                <xs:element name="Verification" type="VerificationType" maxOccurs="500">
+                </xs:element>
               </xs:sequence>
             </xs:complexType>
             <xs:key name="VerificationKey">
@@ -403,6 +446,7 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="VerificationType">
         <xs:sequence>
           <xs:element name="RecordId">
@@ -439,17 +483,20 @@
           <xs:element name="DateOfBirth" type="xs:date" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="BulkVerifyUSIResponseType">
         <xs:sequence>
           <xs:element name="VerificationResponses">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="VerificationResponse" type="VerificationResponseType" maxOccurs="500" />
+                <xs:element name="VerificationResponse" type="VerificationResponseType" maxOccurs="500">
+                </xs:element>
               </xs:sequence>
             </xs:complexType>
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="VerificationResponseType">
         <xs:sequence>
           <xs:element name="USIStatus">
@@ -477,6 +524,7 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="CertificateOfRegistrationByDescentDocumentType">
         <xs:complexContent>
           <xs:extension base="DVSDocumentType">
@@ -486,6 +534,7 @@
           </xs:extension>
         </xs:complexContent>
       </xs:complexType>
+
       <xs:complexType name="CitizenshipCertificateDocumentType">
         <xs:complexContent>
           <xs:extension base="DVSDocumentType">
@@ -504,6 +553,7 @@
           </xs:extension>
         </xs:complexContent>
       </xs:complexType>
+
       <xs:complexType name="ContactDetailsLocateType">
         <xs:sequence>
           <xs:element name="CountryOfResidenceCode" minOccurs="0">
@@ -533,6 +583,7 @@
           </xs:choice>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="ContactDetailsUpdateType">
         <xs:sequence>
           <xs:element name="CountryOfResidenceCode" minOccurs="0">
@@ -562,6 +613,7 @@
           </xs:choice>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="ContactDetailsType">
         <xs:sequence>
           <xs:element name="CountryOfResidenceCode">
@@ -591,6 +643,7 @@
           </xs:choice>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="CreateUSIType">
         <xs:sequence>
           <xs:element name="RequestId" type="RequestIDType" />
@@ -598,11 +651,13 @@
           <xs:element name="Application" type="ApplicationType" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="CreateUSIResponseType">
         <xs:sequence>
           <xs:element name="Application" type="ApplicationResponseType" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="DriversLicenceDocumentType">
         <xs:complexContent>
           <xs:extension base="DVSDocumentType">
@@ -620,6 +675,7 @@
           </xs:extension>
         </xs:complexContent>
       </xs:complexType>
+
       <xs:complexType name="ImmiCardDocumentType">
         <xs:complexContent>
           <xs:extension base="DVSDocumentType">
@@ -636,6 +692,7 @@
           </xs:extension>
         </xs:complexContent>
       </xs:complexType>
+
       <xs:complexType name="MedicareDocumentType">
         <xs:complexContent>
           <xs:extension base="DVSDocumentType">
@@ -777,6 +834,7 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="PassportDocumentType">
         <xs:complexContent>
           <xs:extension base="DVSDocumentType">
@@ -794,6 +852,7 @@
           </xs:extension>
         </xs:complexContent>
       </xs:complexType>
+
       <xs:complexType name="PersonalDetailsLocateType">
         <xs:sequence>
           <xs:element name="Gender">
@@ -843,6 +902,7 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="PersonalDetailsUpdateType">
         <xs:sequence>
           <xs:element name="Gender" minOccurs="0">
@@ -924,6 +984,7 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="PersonalDetailsType">
         <xs:sequence>
           <xs:element name="Gender">
@@ -1006,6 +1067,7 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="PhoneType">
         <xs:sequence>
           <xs:element name="Home" minOccurs="0">
@@ -1024,6 +1086,7 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="VerifyUSIType">
         <xs:sequence>
           <xs:element name="OrgCode" type="OrgCodeType" />
@@ -1056,6 +1119,7 @@
           <xs:element name="DateOfBirth" type="xs:date" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="VerifyUSIResponseType">
         <xs:sequence>
           <xs:element name="USIStatus">
@@ -1077,6 +1141,7 @@
           <xs:element name="DateOfBirth" minOccurs="0" type="MatchResultType" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="VisaDocumentType">
         <xs:complexContent>
           <xs:extension base="DVSDocumentType">
@@ -1095,6 +1160,7 @@
         </xs:complexContent>
       </xs:complexType>
       <xs:complexType abstract="true" name="DVSDocumentType" />
+
       <!-- Bulk Response Types -->
       <xs:complexType name="ApplicationResponseType">
         <xs:sequence>
@@ -1122,17 +1188,20 @@
           <xs:element name="Errors" minOccurs="0">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="Error" type="ErrorType" maxOccurs="unbounded" />
+                <xs:element name="Error" type="ErrorType" maxOccurs="unbounded">
+                </xs:element>
               </xs:sequence>
             </xs:complexType>
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="BulkUploadRetrieveType">
         <xs:sequence>
           <xs:element name="ReceiptNumber" type="BulkReceiptNumberType" />
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="BulkUploadRetrieveResponseType">
         <xs:sequence>
           <xs:element name="RequestId" type="RequestIDType" />
@@ -1159,6 +1228,7 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:complexType name="ErrorType">
         <xs:sequence>
           <xs:element name="Code">
@@ -1178,12 +1248,14 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+
       <xs:simpleType name="MatchResultType">
         <xs:restriction base="xs:string">
           <xs:enumeration value="Match" />
           <xs:enumeration value="NoMatch" />
         </xs:restriction>
       </xs:simpleType>
+
       <xs:simpleType name="StateListType">
         <xs:restriction base="xs:string">
           <xs:enumeration value="NSW" />
@@ -1196,20 +1268,24 @@
           <xs:enumeration value="ACT" />
         </xs:restriction>
       </xs:simpleType>
+
       <xs:simpleType name="YearListType">
         <xs:restriction base="xs:string">
           <xs:length value="4" />
           <xs:pattern value="[0-9]*" />
         </xs:restriction>
+
       </xs:simpleType>
+
       <xs:complexType name="ErrorInfo">
         <xs:sequence>
-          <xs:element type="xs:int" name="Code" />
-          <xs:element type="xs:string" name="Title" />
-          <xs:element type="xs:string" name="Message" />
+          <xs:element type="xs:int" name="Code"></xs:element>
+          <xs:element type="xs:string" name="Title"></xs:element>
+          <xs:element type="xs:string" name="Message"></xs:element>
         </xs:sequence>
       </xs:complexType>
-      <xs:element name="ErrorInfo" type="ErrorInfo" />
+      <xs:element name="ErrorInfo" type="ErrorInfo"></xs:element>
+
       <xs:complexType name="ArrayOfErrorInfo">
         <xs:sequence>
           <xs:element maxOccurs="unbounded" name="ErrorInfo" type="ErrorInfo" />
