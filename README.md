@@ -23,7 +23,10 @@ Dependencies (built and tested with)
 * If using STS v1.3
     - modified metro jars available at https://github.com/DamienJDev/metro-wsit/releases (java1.8MetroSigAlgFix.7z)
     - this allows SHA256 to be specified in the call to the S007v1.3 STS as Metro was defaulting to SHA1 which is not supported
-* AUSkey AKM jars - from ATO - copies available for convenience in this repo in Releases
+* AUSkey AKM jars
+    - These are from the Java SDK of https://www.sbr.gov.au/digital-service-providers
+    - copies used to be hosted by USI Office (as non-SBR providers)
+    - for convenience copies are in this repo in Releases
 
 Structure
 =========
