@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: usi.gov.au.USITest
+Class-Path: classes/ lib/abrakm.jar lib/auskey-dep-1.1.jar lib/readme.txt lib/webservices-api.jar lib/webservices-extra.jar lib/webservices-rt.jar
+
