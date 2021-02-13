@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 
 #https://github.com/cli/cli is used to fetch the dependent jars fromm the repository Releases
-#ant getjars will run
+#"ant getjars" will run
 # gh release download 0.1 -p '*.jar' --dir lib --repo bartland-usi/sample-java
 # Assets already fetched will not be refetched
 
-ant getjars
-ant clean
-ant clean compile
-ant clean jar
-ant runUSITest
+ant getjars jar runUSITest

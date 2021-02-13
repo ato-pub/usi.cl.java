@@ -4,7 +4,7 @@
   <property name="lib.dir" value="lib"/>
   <property name="target.dir" value="target"/>
   <property name="classes.dir" value="classes"/>
-  <property name="jar.file" value="USI-sample.jar"/>
+  <property name="jar.file" value="USI-sample"/>
 
   <target name="getjars">
     <exec executable="gh">
@@ -34,6 +34,7 @@
     <mkdir dir="${target.dir}"/>
     <mkdir dir="${target.dir}/${lib.dir}"/>
     <mkdir dir="${target.dir}/${classes.dir}"/>
+    <!--copy file="src/resources/application.properties" todir="."/-->
   </target>
 
   <target name="compile" depends="prepare">
@@ -56,7 +57,7 @@
     />
   </target>
 
-  <target name="runUSITest" depends="compile">
+  <target name="runUSITest">
     <java fork="true" classname="usi.gov.au.USITest">
       <classpath>
         <fileset dir="${target.dir}/${lib.dir}">

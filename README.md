@@ -1,4 +1,4 @@
-This source is based on the sample JAVA code available from https://www.usi.gov.au/system-developers/sample-code
+This source is based on the sample JAVA code previously available from https://www.usi.gov.au/system-developers/sample-code
 
 It works as is with 3PT using the STS 1.2 SHA1 service.
 * USI Service https://3pt.portal.usi.gov.au/Service/v3/UsiCreateService.svc
@@ -17,6 +17,8 @@ Building
 Either use
 * IDE - use gh to fetch the jars (see comment in build)
 * ANT - see build
+
+Tested platforms: Windows 10, MacOS, Linux
 
 Notes on contributions:
 1. binaries are banned (use gh)
@@ -43,15 +45,18 @@ Dependencies (built and tested with)
 Structure
 =========
 
-* keystore
+* keystore/
     - the M2M credentials used in testing 3PT
 * src/usi
     - the USI sample app
+* application.properties
+    - used by the sample app. See content for more info.
 * src/au
     - the pre-generated output of wsdl2java (see RegenerateClientJava)
     - the files are the same for 3PT or PROD so there is no need to regenerate (unless the service definition changes)
 * src/RegenerateClientJava
     - only used to generate WSDL java src - if needed
+    - also generates a matching application.properties file
     - run for usage
     - requires CXF from https://cxf.apache.org/download.html
 * src/UsiCreateService_EEE_stsSS.wsdl (where EEE=3PT or PROD; SS=12 (sha1) or 13 (sha256))
@@ -67,8 +72,12 @@ e.g.
 * to use 3PT sts12, copy src/UsiCreateService_3PT_sts12.wsdl to src/META-INF/wsdl/UsiCreateService_CLIENT.wsdl
 * to use PROD sts13, copy src/UsiCreateService_PROD_sts13.wsdl to src/META-INF/wsdl/UsiCreateService_CLIENT.wsdl
 
+The RegenerateClientJava script will do this and set the application.properties file appropriately.
+
 Sample of expected results from run
 ================
+
+USI reports an error as the data already exists. However, the transaction did verify successfully.
 
 ```
 ***********************************************************
@@ -118,6 +127,6 @@ wsdl2java.bat
 
 If you see the error
   * "'f' is not recognized as an internal or external command ..."
-there is a type in the batch file.
+there is a typo in the batch file.
   * Line 50: "f %JAVA_VERSION% GTR 8 ("
 Amend the "f" to be "if"

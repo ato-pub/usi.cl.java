@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.StringReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -16,7 +19,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.ws.BindingProvider;
 
-import au.gov.abr.akm.credential.store.ABRProperties;
 //import com.sun.xml.internal.ws.client.BindingProviderProperties;
 import com.sun.xml.ws.addressing.W3CAddressingConstants;
 import com.sun.xml.ws.api.security.trust.client.STSIssuedTokenConfiguration;
@@ -30,6 +32,7 @@ import com.sun.xml.ws.security.trust.impl.client.DefaultSTSIssuedTokenConfigurat
 import com.sun.xml.ws.security.trust.impl.client.SecondaryIssuedTokenParametersImpl;
 import com.sun.xml.wss.XWSSConstants;
 
+import au.gov.abr.akm.credential.store.ABRProperties;
 import au.gov.abr.akm.credential.store.ABRCredential;
 import au.gov.abr.akm.credential.store.ABRKeyStore;
 import au.gov.usi._2018.ws.servicepolicy.IUSIService;
@@ -38,6 +41,8 @@ import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.saml.util.SAMLUtil;
 import org.w3c.dom.Element;
+
+import java.util.Properties;
 
 
 public class UsiServiceChannel {
@@ -63,12 +68,35 @@ public class UsiServiceChannel {
 	private static String M2M_ALIAS = useCloud ? M2M_ALIAS_CLOUD : M2M_ALIAS_LOCAL;
     private static String ORGCODE = useCloud ? ORGCODE_CLOUD : ORGCODE_LOCAL;
 
-	final private static String ENDPOINT = "https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1." + (useSts13 ? "3" : "2") + "/service.svc";
+	private static String ENDPOINT = "https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1." + (useSts13 ? "3" : "2") + "/service.svc";
+    
 	final private static String WSDL_LOCATION = ENDPOINT;
 	final private static String STS_NAMESPACE ="http://schemas.microsoft.com/ws/2008/06/identity/securitytokenservice";
 	final private static String STS_SERVICE_NAME = "SecurityTokenService";
 	final private static String STS_PORT_NAME = "S007SecurityTokenServiceEndpoint";
 	final private static String STS_PROTOCOL = WSTrustVersion.WS_TRUST_13.getNamespaceURI(); //STSIssuedTokenConfiguration.PROTOCOL_13;
+
+    static {
+        System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        Properties p = new Properties();
+        try {
+            FileReader reader = new FileReader("application.properties");
+            p.load(reader);
+            reader.close();
+            System.out.println("Loaded application.properties");
+        } catch (FileNotFoundException e) {
+            System.out.println("Skipped application.properties - not found");
+        } catch (IOException e) {
+        }
+        String v = p.getProperty("sts_version");
+        if (v != null) { useSts13 = v.equals("3"); }
+        ENDPOINT = "https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1." + (useSts13 ? "3" : "2") + "/service.svc";
+        v = p.getProperty("sts_mode");
+        if (v != null) { useCloud = v.equals("cloud"); }
+        M2M_ALIAS = useCloud ? M2M_ALIAS_CLOUD : M2M_ALIAS_LOCAL;
+        ORGCODE = useCloud ? ORGCODE_CLOUD : ORGCODE_LOCAL;
+        System.out.println("Using sts " + (useSts13 ? "3" : "2") + " mode " + (useCloud ? "cloud" : "local"));
+    }
 
     public static String getOrgCode() {
         return ORGCODE;
