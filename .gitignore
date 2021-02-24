@@ -225,6 +225,9 @@ local.properties
 !.vscode/extensions.json
 *.code-workspace
 
+# Local History for Visual Studio Code
+.history/
+
 #   ------------------------------------------------------------
 #   https://raw.githubusercontent.com/github/gitignore/master/Global/Xcode.gitignore
 
@@ -473,6 +476,7 @@ web_modules/
 
 # Next.js build output
 .next
+out
 
 # Nuxt.js build / generate output
 .nuxt
@@ -507,6 +511,7 @@ dist
 .yarn/cache
 .yarn/unplugged
 .yarn/build-state.yml
+.yarn/install-state.gz
 .pnp.*
 
 #   ------------------------------------------------------------
@@ -656,7 +661,9 @@ _TeamCity*
 !.axoCover/settings.json
 
 # Coverlet is a free, cross platform Code Coverage Tool
-coverage*[.json, .xml, .info]
+coverage*.json
+coverage*.xml
+coverage*.info
 
 # Visual Studio code coverage results
 *.coverage
@@ -870,6 +877,9 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
+# Fody - auto-generated XML schema
+FodyWeavers.xsd
+
 #   ------------------------------------------------------------
 #   https://raw.githubusercontent.com/github/gitignore/master/Android.gitignore
 
@@ -958,6 +968,9 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
+# Android Profiling
+*.hprof
 
 #   ------------------------------------------------------------
 #   https://raw.githubusercontent.com/github/gitignore/master/Objective-C.gitignore
@@ -1145,5 +1158,7 @@ obj/
 *.zip
 *.tar
 
-# ant build.xml puts prepare/compile/jar outputs in target/
+# ant build.xml puts prepare/compile/jar outputs in target...
 target
+targetv3
+targetv4

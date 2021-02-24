@@ -12,5 +12,7 @@ obj/
 *.zip
 *.tar
 
-# ant build.xml puts prepare/compile/jar outputs in target/
+# ant build.xml puts prepare/compile/jar outputs in target...
 target
+targetv3
+targetv4

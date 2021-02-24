@@ -1,11 +1,28 @@
 <project name="USI-sample" default="jar" basedir=".">
 
-  <property name="src.dir" value="src"/>
+  <!-- Input vaiables - override using arguments of the form -Dname=value -->
+  <property environment="env"/>
+  <property name="env" value="3PT"/>
+  <property name="usiver" value="3"/>
+  <property name="stsver" value="12"/>
+  <property name="stsmode" value="local"/>
+  <!-- Input vaiables -->
+  
+  <property name="src.dir" value="srcv${usiver}"/>
   <property name="lib.dir" value="lib"/>
-  <property name="target.dir" value="target"/>
+  <property name="target.dir" value="targetv${usiver}"/>
   <property name="classes.dir" value="classes"/>
   <property name="jar.file" value="USI-sample"/>
 
+  <target name="dumpvars">
+    <echo>usiver=${usiver}</echo>
+    <echo>src.dir=${src.dir}</echo>
+    <echo>lib.dir=${lib.dir}</echo>
+    <echo>target.dir=${target.dir}</echo>
+    <echo>classes.dir=${classes.dir}</echo>
+    <echo>jar.file=${jar.file}</echo>
+  </target>
+  
   <target name="getjars">
     <exec executable="gh">
       <arg value="release"/>
@@ -17,6 +34,30 @@
       <arg value="lib"/>
       <arg value="--repo"/>
       <arg value="bartland-usi/sample-java"/>
+    </exec>
+  </target>
+
+  <target name="wsdlpatch">
+    <copy file="srcv${usiver}/wsdls/UsiService_${env}_sts${stsver}.wsdl" tofile="srcv${usiver}/META-INF/wsdl/UsiService_CLIENT.wsdl"/>
+    <echo file="application.properties" append="false">
+## sts_version is generated using RegenerateClientJava - do not modify
+sts_version=${stsver}
+## sts_mode can be 'local' or 'cloud'
+sts_mode=${stsmode}
+    </echo>
+  </target>
+
+  <target name="wsdl" depends="wsdlpatch">
+    <exec executable="${env.CXF_HOME}/wsdl2java">
+      <arg value="-V"/>
+      <arg value="-b"/>
+      <arg value="./cxf_bindings.config"/>
+      <arg value="-client"/>
+      <arg value="-wsdlLocation"/>
+      <arg value="srcv${usiver}/META-INF/wsdl/UsiService_CLIENT.wsdl"/>
+      <arg value="-d"/>
+      <arg value="srcv${usiver}"/>
+      <arg value="srcv${usiver}/META-INF/wsdl/UsiService_CLIENT.wsdl"/>
     </exec>
   </target>
 
@@ -50,7 +91,7 @@
     </javac>
   </target>
 
-  <target name="jar" depends="compile">
+  <target name="jar" depends="dumpvars, compile">
     <jar  destfile="${target.dir}/${jar.file}.jar"
           basedir="${target.dir}"
           manifest="${src.dir}/META-INF/MANIFEST.MF"
