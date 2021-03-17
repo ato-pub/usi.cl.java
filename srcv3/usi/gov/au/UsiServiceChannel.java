@@ -35,6 +35,8 @@ import com.sun.xml.wss.XWSSConstants;
 import au.gov.abr.akm.credential.store.ABRProperties;
 import au.gov.abr.akm.credential.store.ABRCredential;
 import au.gov.abr.akm.credential.store.ABRKeyStore;
+//import au.gov.usi._2020.ws.servicepolicy.IUSIService;
+//import au.gov.usi._2020.ws.servicepolicy.USIService;
 import au.gov.usi._2018.ws.servicepolicy.IUSIService;
 import au.gov.usi._2018.ws.servicepolicy.USIService;
 import com.sun.xml.wss.XWSSecurityException;
@@ -68,34 +70,49 @@ public class UsiServiceChannel {
 	private static String M2M_ALIAS = useCloud ? M2M_ALIAS_CLOUD : M2M_ALIAS_LOCAL;
     private static String ORGCODE = useCloud ? ORGCODE_CLOUD : ORGCODE_LOCAL;
 
-	private static String ENDPOINT = "https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1." + (useSts13 ? "3" : "2") + "/service.svc";
-    
-	final private static String WSDL_LOCATION = ENDPOINT;
-	final private static String STS_NAMESPACE ="http://schemas.microsoft.com/ws/2008/06/identity/securitytokenservice";
-	final private static String STS_SERVICE_NAME = "SecurityTokenService";
-	final private static String STS_PORT_NAME = "S007SecurityTokenServiceEndpoint";
-	final private static String STS_PROTOCOL = WSTrustVersion.WS_TRUST_13.getNamespaceURI(); //STSIssuedTokenConfiguration.PROTOCOL_13;
-
-    static {
-        System.out.println("Working Directory = " + System.getProperty("user.dir"));
+    static Properties getPropFile(String file) {
         Properties p = new Properties();
         try {
-            FileReader reader = new FileReader("application.properties");
+            FileReader reader = new FileReader(file);
             p.load(reader);
             reader.close();
-            System.out.println("Loaded application.properties");
+            System.out.println("Loaded " + file);
         } catch (FileNotFoundException e) {
-            System.out.println("Skipped application.properties - not found");
+            System.out.println("Skipped" + file + " - not found");
+            p = null;
         } catch (IOException e) {
+            p = null;
         }
-        String v = p.getProperty("sts_version");
-        if (v != null) { useSts13 = v.equals("13"); }
-        ENDPOINT = "https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1." + (useSts13 ? "3" : "2") + "/service.svc";
-        v = p.getProperty("sts_mode");
-        if (v != null) { useCloud = v.equals("cloud"); }
-        M2M_ALIAS = useCloud ? M2M_ALIAS_CLOUD : M2M_ALIAS_LOCAL;
-        ORGCODE = useCloud ? ORGCODE_CLOUD : ORGCODE_LOCAL;
+        return p;
+    }
+    static {
+        String v = null;
+        System.out.println("Working Directory = " + System.getProperty("user.dir"));
+
+        Properties p = getPropFile("appgen.properties");
+        if (p != null) {
+            v = p.getProperty("sts_version");
+            if (v != null) { useSts13 = v.equals("13"); }
+        }
+
+        p = getPropFile("application.properties");
+        if (p != null) {
+            v = p.getProperty("keystore");
+            if (v != null) { M2M_KEYSTORE = v; }
+        
+            v = p.getProperty("alias_local");
+            if (v != null) { M2M_ALIAS_LOCAL = v; }
+            v = p.getProperty("alias_cloud");
+            if (v != null) { M2M_ALIAS_CLOUD = v; }
+        
+            v = p.getProperty("sts_mode");
+            if (v != null) { useCloud = v.equals("cloud"); }
+            M2M_ALIAS = useCloud ? M2M_ALIAS_CLOUD : M2M_ALIAS_LOCAL;
+            ORGCODE = useCloud ? ORGCODE_CLOUD : ORGCODE_LOCAL;
+        }
+        
         System.out.println("Using sts " + (useSts13 ? "3" : "2") + " mode " + (useCloud ? "cloud" : "local"));
+        System.out.println("keystore = " + M2M_KEYSTORE + "; " + "alias_local = " + M2M_ALIAS_LOCAL + "; " + "alias_cloud = " + M2M_ALIAS_CLOUD + "; ");
     }
 
     public static String getOrgCode() {
@@ -125,15 +142,8 @@ public class UsiServiceChannel {
 			Token actAs = getActAs();
 			otherOptions.put(STSIssuedTokenConfiguration.ACT_AS, actAs);
 		}
-			//otherOptions.put(STSIssuedTokenConfiguration.STS_ENDPOINT, ENDPOINT);
-			//otherOptions.put(STSIssuedTokenConfiguration.STS_WSDL_LOCATION, WSDL_LOCATION);
-			//otherOptions.put(STSIssuedTokenConfiguration.STS_NAMESPACE, STS_NAMESPACE);
-			//otherOptions.put(STSIssuedTokenConfiguration.STS_SERVICE_NAME, STS_SERVICE_NAME);
-			//otherOptions.put(STSIssuedTokenConfiguration.STS_PORT_NAME, STS_PORT_NAME);
-			//config.setSTSInfo(x, ENDPOINT, WSDL_LOCATION, STS_SERVICE_NAME, STS_PORT_NAME, STS_NAMESPACE);
 			STSIssuedTokenFeature feature = new STSIssuedTokenFeature(config);
 		IUSIService endpoint = service.getWS2007FederationHttpBindingIUSIService(feature);
-		//IUSIService endpoint = service.getWS2007FederationHttpBindingIUSIService();
 
 		SetupRequestContext(endpoint, certificate, privateKey);
 		return endpoint;
@@ -257,13 +267,6 @@ public class UsiServiceChannel {
 
 
 		requestContext.put(STSIssuedTokenConfiguration.LIFE_TIME, 20*60*1000); // minutes*60*1000 (milliseconds). This will override the WSDL
-		/*
-		requestContext.put(STSIssuedTokenConfiguration.STS_ENDPOINT, ENDPOINT);
-		requestContext.put(STSIssuedTokenConfiguration.STS_NAMESPACE, STS_NAMESPACE);
-		requestContext.put(STSIssuedTokenConfiguration.STS_WSDL_LOCATION, WSDL_LOCATION);
-		requestContext.put(STSIssuedTokenConfiguration.STS_SERVICE_NAME, STS_SERVICE_NAME);
-		requestContext.put(STSIssuedTokenConfiguration.STS_PORT_NAME, STS_PORT_NAME);
-		*/
 		requestContext.put(BindingProviderProperties.REQUEST_TIMEOUT, REQUEST_TIMEOUT);
 		requestContext.put(BindingProviderProperties.CONNECT_TIMEOUT, CONNECT_TIMEOUT);
 	}

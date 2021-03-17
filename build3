@@ -5,7 +5,8 @@
 ## gh release download 0.1 -p '*.jar' --dir lib --repo bartland-usi/sample-java
 ## Assets already fetched will not be refetched
 
-ant -Dusiver=3 getjars wsdl jar runUSITest
+ant getjars
+ant -Dusiver=3 -Denv=3PT wsdl jar runUSITest
 
 ## after build, to just run
 #ant -Dusiver=3 runUSITest

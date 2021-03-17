@@ -29,6 +29,37 @@ Notes on contributions:
 
 1. binaries are banned (use gh)
 
+Using ANT
+=========
+
+See the input vars in build.xml.
+
+e.g.
+
+  * ant -Dusiver=4 -Denv=PROD getjars wsdl jar runUSITest
+
+or seperately run targets
+  * ant getjars
+  * ant -Dusiver=4 -Denv=PROD wsdl
+  * ant -Dusiver=4 jar
+  * ant -Dusiver=4 runUSITest
+  
+will generate files for USI v4 for production use (requires a valid production keystore file to run).
+The wsdl target will setup the appgen.properties file and
+copy the application.<env>.properties to application.properties where <env> is 3PT or PROD.
+
+Variables exist to set:
+  * USI v3 or v4 service
+  * 3PT or PROD
+  * STS v1.2 or v1.3
+
+In application.properties there are some values that can be set at runtime:
+  * local or cloud (ActAs/Applies)
+  * keystore=keystore/keystore-usi.xml
+  * alias_local=ABRD:27809366375_USIMachine
+  * alias_cloud=ABRD:11000002568_INGLETON153
+
+
 Dependencies (built and tested with)
 ============
 
@@ -60,43 +91,24 @@ Ensure environment variables are set properly
 Structure
 =========
 
+* build.xml
+    - see Building
 * keystore/
     - the M2M credentials used in testing 3PT
+* application.properties, etc
+    - used by the sample apps. See content for more info.
 * srcv3/usi and srcv4/usi
     - the USI sample app for USI v3 and USI v4
-* application.properties
-    - used by the sample apps. See content for more info.
 * srcv3/au and srcv4/au
     - the pre-generated output of wsdl2java (see wsdl target in build.xml)
     - the files are the same for 3PT or PROD so there is no need to regenerate (unless the service definition changes)
-* src/RegenerateClientJava
-    - only used to generate WSDL java src - if needed
-    - also generates a matching application.properties file
-    - run for usage
-    - requires CXF from https://cxf.apache.org/download.html
-* src/wsdlv3 or src/wsdlv4
+* srcv3/wsdls or srcv4/wsdls
     - UsiService_EEE_stsSS.wsdl (where EEE=3PT or PROD; SS=12 (sha1) or 13 (sha256))
     - contains numerous changes to support *client* side calls
-* src/META-INF
+* srcv3/META-INF or srcv4/META-INF
     - the wsdl definition file consumed by the generated source
-
-Input vars
-==========
-
-See the input vars in build.xml.
-
-e.g.
-
-  * ant -Dusiver=4 -Denv=PROD getjars wsdl jar
-  
-will generate files for USI v4 for production use (requires a valid production keystore file to run)
-
-Variables exist to set:
-
-* USI v3 or v4 service
-* 3PT or PROD
-* STS v1.2 or v1.3
-* local or cloud (ActAs/Applies) - can also be set at run time in application.properties
+* lib
+    - where downloaded jars are put
 
 Sample of expected results from run
 ================
@@ -131,11 +143,3 @@ See EnableProxy_FOR_DEBUG_ONLY() to use a proxy such as BURP to capture http tra
 
 soapTracing() is generally sufficient.
 
-wsdl2java.bat
--------------
-
-If you see the error
-  * "'f' is not recognized as an internal or external command ..."
-there is a typo in the batch file.
-  * Line 50: "f %JAVA_VERSION% GTR 8 ("
-Amend the "f" to be "if"

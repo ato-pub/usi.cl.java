@@ -5,7 +5,6 @@
   <property name="env" value="3PT"/>
   <property name="usiver" value="3"/>
   <property name="stsver" value="12"/>
-  <property name="stsmode" value="local"/>
   <!-- Input vaiables -->
   
   <property name="src.dir" value="srcv${usiver}"/>
@@ -15,6 +14,7 @@
   <property name="jar.file" value="USI-sample"/>
 
   <target name="dumpvars">
+    <echo>env=${env}</echo>
     <echo>usiver=${usiver}</echo>
     <echo>src.dir=${src.dir}</echo>
     <echo>lib.dir=${lib.dir}</echo>
@@ -38,13 +38,14 @@
   </target>
 
   <target name="wsdlpatch">
-    <copy file="srcv${usiver}/wsdls/UsiService_${env}_sts${stsver}.wsdl" tofile="srcv${usiver}/META-INF/wsdl/UsiService_CLIENT.wsdl"/>
-    <echo file="application.properties" append="false">
-## sts_version is generated using RegenerateClientJava - do not modify
+    <copy file="srcv${usiver}/wsdls/UsiService_${env}_sts${stsver}.wsdl" tofile="srcv${usiver}/META-INF/wsdl/UsiService_CLIENT.wsdl" overwrite="true" force="true"/>
+    <echo file="appgen.properties" append="false">
+## sts_version is generated using build.xml wsdlpatch and synced with
+## srcv${usiver}/wsdls/UsiService_${env}_sts${stsver}.wsdl -> srcv${usiver}/META-INF/wsdl/UsiService_CLIENT.wsdl
+## Do not modify
 sts_version=${stsver}
-## sts_mode can be 'local' or 'cloud'
-sts_mode=${stsmode}
     </echo>
+    <copy file="application.${env}.properties" tofile="application.properties" overwrite="true" force="true"/>
   </target>
 
   <target name="wsdl" depends="wsdlpatch">

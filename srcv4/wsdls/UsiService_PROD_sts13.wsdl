@@ -1668,9 +1668,9 @@
       Environment: PRODUCTION
     </wsdl:documentation>
     <wsdl:port name="WS2007FederationHttpBinding_IUSIService" binding="tns:WS2007FederationHttpBinding_IUSIService">
-      <soap12:address location="https://portal.usi.gov.au/service/usiservice.svc"/>
+      <soap12:address location="https://portal.usi.gov.au/Service/UsiService.svc"/>
       <wsa10:EndpointReference>
-        <wsa10:Address>https://portal.usi.gov.au/service/usiservice.svc</wsa10:Address>
+        <wsa10:Address>https://portal.usi.gov.au/Service/UsiService.svc</wsa10:Address>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>
