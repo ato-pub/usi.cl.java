@@ -263,6 +263,7 @@ public class UsiServiceChannel {
 			// or can do above
 			//Token actAs = getActAs();
 			//requestContext.put(STSIssuedTokenConfiguration.ACT_AS, actAs);
+       requestContext.put(STSIssuedTokenConfiguration.SHARE_TOKEN, false); // Prevents caching (sharing) token in multi tenanted applications.
 		}
 
 
