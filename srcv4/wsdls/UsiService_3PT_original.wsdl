@@ -671,6 +671,14 @@
                 </xs:simpleType>
               </xs:element>
               <xs:element name="State" type="StateListType" />
+              <xs:element name="CardNumber" minOccurs="0" maxOccurs="1">
+	              <xs:simpleType>
+		              <xs:restriction base="xs:string">
+			              <xs:minLength value="1" />
+			              <xs:maxLength value="10" />
+		              </xs:restriction>
+	              </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:extension>
         </xs:complexContent>

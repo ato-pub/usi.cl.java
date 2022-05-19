@@ -15,6 +15,24 @@ Alternatively, see below for PROD which uses:
 * STS Service https://softwareauthorisations.ato.gov.au/R3.0/S007v1.2/service.svc OR
 * STS Service https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc
 
+WSDLs
+=====
+
+The WSDLs used are NOT those hosted on the USI site. Instead local modified copies are used which:
+
+* remove the MEX call as this is not supported by the STS
+* configure the STS including claims
+* full specify use of sha256 (otherwise some aspects fall back to sha1)
+
+Files:
+
+* USI v3: See srcv3/wsdls for the modified versions using the STS v1.2 or v1.3 service
+    - 3PT: https://3pt.portal.usi.gov.au/Service/v3/UsiCreateService.wsdl
+    - PROD: https://portal.usi.gov.au/Service/v3/UsiCreateService.wsdl
+* USI v4: See srcv4/wsdls for the modified versions using the STS v1.2 or v1.3 service
+    - 3PT: https://3pt.portal.usi.gov.au/Service/v3/UsiCreateService.wsdl
+    - PROD: https://portal.usi.gov.au/Service/v3/UsiCreateService.wsdl
+
 Building
 ========
 
@@ -88,6 +106,14 @@ Ensure environment variables are set properly
 * JAVA_HOME
 * CXF_HOME (must be set to bin subfolder)
 
+The build3/4 scripts will fetch the dependent libs into the lib subfolder:
+
+* abrakm.jar
+* auskey-dep-1.1.jar
+* webservices-api.jar
+* webservices-extra.jar
+* webservices-rt.jar
+
 Structure
 =========
 
@@ -139,7 +165,7 @@ Notes
 Proxy and Tracing
 -----
 
-See EnableProxy_FOR_DEBUG_ONLY() to use a proxy such as BURP to capture http traffic.
+See EnableProxy_FOR_DEBUG_ONLY() to use a proxy such as BURP to capture http/s traffic.
 
 soapTracing() is generally sufficient.
 
