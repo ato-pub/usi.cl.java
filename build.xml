@@ -3,10 +3,10 @@
   <!-- Input vaiables - override using arguments of the form -Dname=value -->
   <property environment="env"/>
   <property name="env" value="3PT"/>
-  <property name="usiver" value="3"/>
+  <property name="usiver" value="4"/>
   <property name="stsver" value="12"/>
   <!-- Input vaiables -->
-  
+
   <property name="src.dir" value="srcv${usiver}"/>
   <property name="lib.dir" value="lib"/>
   <property name="target.dir" value="targetv${usiver}"/>
@@ -22,7 +22,7 @@
     <echo>classes.dir=${classes.dir}</echo>
     <echo>jar.file=${jar.file}</echo>
   </target>
-  
+
   <target name="getjars">
     <exec executable="gh">
       <arg value="release"/>

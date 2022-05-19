@@ -2,7 +2,8 @@ This source is based on the sample JAVA code previously available from https://w
 
 It works as is with 3PT using the STS 1.2 SHA1 service.
 
-* USI v3 Service https://3pt.portal.usi.gov.au/Service/v3/UsiCreateService.svc
+Note that USI v3 has been deprecated, so support for it has been removed.
+
 * USI v4 Service https://3pt.portal.usi.gov.au/Service/UsiService.svc
 * STS Service https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc OR
 * STS Service https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc
@@ -10,7 +11,6 @@ It works as is with 3PT using the STS 1.2 SHA1 service.
 
 Alternatively, see below for PROD which uses:
 
-* USI v3 Service https://portal.usi.gov.au/Service/v3/UsiCreateService.svc
 * USI v4 Service https://portal.usi.gov.au/Service/UsiService.svc
 * STS Service https://softwareauthorisations.ato.gov.au/R3.0/S007v1.2/service.svc OR
 * STS Service https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc
@@ -26,9 +26,6 @@ The WSDLs used are NOT those hosted on the USI site. Instead local modified copi
 
 Files:
 
-* USI v3: See srcv3/wsdls for the modified versions using the STS v1.2 or v1.3 service
-    - 3PT: https://3pt.portal.usi.gov.au/Service/v3/UsiCreateService.wsdl
-    - PROD: https://portal.usi.gov.au/Service/v3/UsiCreateService.wsdl
 * USI v4: See srcv4/wsdls for the modified versions using the STS v1.2 or v1.3 service
     - 3PT: https://3pt.portal.usi.gov.au/Service/v3/UsiCreateService.wsdl
     - PROD: https://portal.usi.gov.au/Service/v3/UsiCreateService.wsdl
@@ -39,7 +36,7 @@ Building
 Either use:
 
 * IDE - use gh to fetch the jars (see comment in build)
-* ANT - see build3 (USI v3) or build4 (USI v4)
+* ANT - see build4 (USI v4)
 
 Tested platforms: Windows 10, MacOS, Linux
 
@@ -61,13 +58,13 @@ or seperately run targets
   * ant -Dusiver=4 -Denv=PROD wsdl
   * ant -Dusiver=4 jar
   * ant -Dusiver=4 runUSITest
-  
+
 will generate files for USI v4 for production use (requires a valid production keystore file to run).
 The wsdl target will setup the appgen.properties file and
 copy the application.<env>.properties to application.properties where <env> is 3PT or PROD.
 
 Variables exist to set:
-  * USI v3 or v4 service
+  * USI v3 or v4 service (v3 no longer supported)
   * 3PT or PROD
   * STS v1.2 or v1.3
 
@@ -123,15 +120,15 @@ Structure
     - the M2M credentials used in testing 3PT
 * application.properties, etc
     - used by the sample apps. See content for more info.
-* srcv3/usi and srcv4/usi
-    - the USI sample app for USI v3 and USI v4
-* srcv3/au and srcv4/au
+* srcv4/usi
+    - the USI sample app for USI v4
+* srcv4/au
     - the pre-generated output of wsdl2java (see wsdl target in build.xml)
     - the files are the same for 3PT or PROD so there is no need to regenerate (unless the service definition changes)
-* srcv3/wsdls or srcv4/wsdls
+* srcv4/wsdls
     - UsiService_EEE_stsSS.wsdl (where EEE=3PT or PROD; SS=12 (sha1) or 13 (sha256))
     - contains numerous changes to support *client* side calls
-* srcv3/META-INF or srcv4/META-INF
+* srcv4/META-INF
     - the wsdl definition file consumed by the generated source
 * lib
     - where downloaded jars are put

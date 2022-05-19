@@ -14,5 +14,4 @@ obj/
 
 # ant build.xml puts prepare/compile/jar outputs in target...
 target
-targetv3
 targetv4
