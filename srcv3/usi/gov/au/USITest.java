@@ -77,7 +77,7 @@ public class USITest {
 			// Create USI Request Start
 			ApplicationType appType = getApplicationType("Maryam",
 					"Fredrick", "25/05/1966", "F",
-					"usi.sample.code+javasample@gmail.com", "0900000006",
+					"usi.sample.code+javasample@gmail.com", "0800000006",
 					"123 Fake Street", "2612", StateListType.ACT, "Turner",
 					getBirthCertDvs(), "Australia", "Australia", "Email",
 					"Australia");
