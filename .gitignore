@@ -1159,10 +1159,7 @@ obj/
 *.tar
 
 appgen.properties
-srcv3/au
-srcv4/au
+srcv?/au
 
 # ant build.xml puts prepare/compile/jar outputs in target...
-target
-targetv3
-targetv4
+target*

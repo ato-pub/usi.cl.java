@@ -27,7 +27,7 @@
     <exec executable="gh">
       <arg value="release"/>
       <arg value="download"/>
-      <arg value="0.1"/>
+      <arg value="0.2"/>
       <arg value="-p"/>
       <arg value="*.jar"/>
       <arg value="--dir"/>
@@ -109,6 +109,10 @@ sts_version=${stsver}
           <include name="${classes.dir}"/>
         </dirset>
       </classpath>
+      <!-- In case of SSL error - non-prod environments only
+      <sysproperty key="java.security.disableSystemPropertiesFile" value="true"/>
+      -->
+      <sysproperty key="java.security.disableSystemPropertiesFile" value="true"/>
     </java>
   </target>
 

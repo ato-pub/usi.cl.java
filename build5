@@ -12,7 +12,7 @@ trap _ ERR EXIT
 ## Assets already fetched will not be refetched
 
 ant getjars
-ant -Dusiver=4 -Denv=3PT wsdl jar runUSITest
+ant -Dusiver=5 -Denv=3PT wsdl jar runUSITest
 
 ## after build, to just run
 #ant -Dusiver=4 runUSITest

@@ -15,6 +15,10 @@ Alternatively, see below for PROD which uses:
 * STS Service https://softwareauthorisations.ato.gov.au/R3.0/S007v1.2/service.svc OR
 * STS Service https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc
 
+Important note:
+The v4 service is due to be deprecated around August 2023.
+This version includes support for the v5 service (see build5) in 3PT. PROD support will be added after suitable testing.
+
 WSDLs
 =====
 

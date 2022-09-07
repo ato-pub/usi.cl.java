@@ -12,6 +12,8 @@ obj/
 *.zip
 *.tar
 
+appgen.properties
+srcv?/au
+
 # ant build.xml puts prepare/compile/jar outputs in target...
-target
-targetv4
+target*
