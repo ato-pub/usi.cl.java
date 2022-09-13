@@ -11,8 +11,8 @@ trap _ ERR EXIT
 ## gh release download 0.1 -p '*.jar' --dir lib --repo bartland-usi/sample-java
 ## Assets already fetched will not be refetched
 
-ant getjars
-ant -Dusiver=4 -Denv=3PT wsdl jar runUSITest
+echo "ant -Dusiver=4 -Dstsver=12 -Denv=3PT dumpvars getjars wsdl jar runUSITest"
+ant -Dusiver=4 -Dstsver=12 -Denv=3PT dumpvars getjars wsdl jar runUSITest
 
 ## after build, to just run
 #ant -Dusiver=4 runUSITest

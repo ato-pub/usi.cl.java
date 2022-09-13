@@ -32,7 +32,7 @@
             </sp:TransportToken>
             <sp:AlgorithmSuite>
               <wsp:Policy>
-                <sp:Basic256 />
+                <sp:Basic256Sha256Rsa15 />
               </wsp:Policy>
             </sp:AlgorithmSuite>
             <sp:Layout>
@@ -46,17 +46,30 @@
         <sp:EndorsingSupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
           <wsp:Policy>
             <sp:IssuedToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
-              <trust:Claims Dialect="http://schemas.xmlsoap.org/ws/2005/05/identity" xmlns:wsid="http://schemas.xmlsoap.org/ws/2005/05/identity" xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
-                <wsid:ClaimType Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/credentialtype" />
-                <wsid:ClaimType Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/abn" />
-              </trust:Claims>
+              <Issuer xmlns="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+                <Address xmlns="http://www.w3.org/2005/08/addressing">https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc</Address>
+                <Metadata xmlns="http://www.w3.org/2005/08/addressing">
+                  <Metadata xmlns="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <wsx:MetadataSection xmlns="">
+                      <wsx:MetadataReference>
+                        <Address xmlns="http://www.w3.org/2005/08/addressing">https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc/mex</Address>
+                      </wsx:MetadataReference>
+                    </wsx:MetadataSection>
+                  </Metadata>
+                </Metadata>
+              </Issuer>
               <sp:RequestSecurityTokenTemplate xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
                 <trust:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/SymmetricKey</trust:KeyType>
                 <trust:KeySize>256</trust:KeySize>
                 <trust:KeyWrapAlgorithm>http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p</trust:KeyWrapAlgorithm>
-                <trust:RequestType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issuee</trust:RequestType>
-                <trust:TokenType>http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1</trust:TokenType>
+                <trust:Claims xmlns:wsid="http://schemas.xmlsoap.org/ws/2005/05/identity" Dialect="http://schemas.xmlsoap.org/ws/2005/05/identity">
+                  <wsid:ClaimType Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/abn" />
+                  <wsid:ClaimType Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/credentialtype" />
+                </trust:Claims>
+                <trust:EncryptWith>http://www.w3.org/2001/04/xmlenc#aes256-cbc</trust:EncryptWith>
+                <trust:SignWith>http://www.w3.org/2000/09/xmldsig#hmac-sha1</trust:SignWith>
                 <trust:CanonicalizationAlgorithm>http://www.w3.org/2001/10/xml-exc-c14n#</trust:CanonicalizationAlgorithm>
+                <trust:EncryptionAlgorithm>http://www.w3.org/2001/04/xmlenc#aes256-cbc</trust:EncryptionAlgorithm>
               </sp:RequestSecurityTokenTemplate>
               <wsp:Policy>
                 <sp:RequireInternalReference />
@@ -73,20 +86,6 @@
           </wsp:Policy>
         </sp:Trust13>
         <wsaw:UsingAddressing />
-        <trust:PreconfiguredSTS
-            xmlns:trust="http://schemas.sun.com/ws/2006/05/trust/client"
-            xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy"
-            wspp:visibility="private"
-            shareToken="true"
-            renewExpiredToken="true"
-            wstVersion="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
-            endpoint="https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc"
-            wsdlLocation="https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc"
-            serviceName="SecurityTokenService"
-            portName="S007SecurityTokenServiceEndpoint"
-            namespace="http://schemas.microsoft.com/ws/2008/06/identity/securitytokenservice">
-          <trust:LifeTime>1200000</trust:LifeTime>
-        </trust:PreconfiguredSTS>
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
@@ -1571,11 +1570,11 @@
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="USIService">
-    <wsdl:documentation>Version: 5.0 Environment: 3PT</wsdl:documentation>
+    <wsdl:documentation>Version: 5.0 Environment: PRODUCTION</wsdl:documentation>
     <wsdl:port name="WS2007FederationHttpBinding_IUSIService" binding="tns:WS2007FederationHttpBinding_IUSIService">
-      <soap12:address location="https://3pt.portal.usi.gov.au/service/v5/usiservice.svc" />
+      <soap12:address location="https://portal.usi.gov.au/Service/v5/UsiService.svc" />
       <wsa10:EndpointReference>
-        <wsa10:Address>https://3pt.portal.usi.gov.au/service/v5/usiservice.svc</wsa10:Address>
+        <wsa10:Address>https://portal.usi.gov.au/Service/v5/UsiService.svc</wsa10:Address>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>

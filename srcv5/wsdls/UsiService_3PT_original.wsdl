@@ -3,14 +3,14 @@
     name="USIService"
     targetNamespace="http://usi.gov.au/2022/ws/servicepolicy"
     xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
     xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
     xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
-    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
     xmlns:tns="http://usi.gov.au/2022/ws/servicepolicy"
-    xmlns:u4="http://usi.gov.au/2020/ws"
     xmlns:u="http://usi.gov.au/2022/ws"
-    xmlns:wsa10="http://www.w3.org/2005/08/addressing"
+    xmlns:u4="http://usi.gov.au/2020/ws"
     xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+    xmlns:wsa10="http://www.w3.org/2005/08/addressing"
     xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
     xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
     xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
@@ -19,7 +19,7 @@
     xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
     xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    >
+>
   <wsp:Policy wsu:Id="WS2007FederationHttpBinding_IUSIService_policy">
     <wsp:ExactlyOne>
       <wsp:All>
@@ -90,7 +90,7 @@
     </wsp:ExactlyOne>
   </wsp:Policy>
   <wsdl:types>
-    <xs:schema xmlns="http://usi.gov.au/2022/ws" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://usi.gov.au/2022/ws" elementFormDefault="qualified">
+    <xs:schema targetNamespace="http://usi.gov.au/2022/ws" elementFormDefault="qualified" xmlns="http://usi.gov.au/2022/ws" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:element name="BulkUpload" type="BulkUploadType" />
       <xs:element name="BulkUploadResponse" type="BulkUploadResponseType" />
       <xs:element name="BulkUploadRetrieve" type="BulkUploadRetrieveType" />

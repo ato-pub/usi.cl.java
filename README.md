@@ -1,23 +1,22 @@
 This source is based on the sample JAVA code previously available from https://www.usi.gov.au/system-developers/sample-code
 
-It works as is with 3PT using the STS 1.2 SHA1 service.
+It works as is with USI v5 3PT using the STS 1.2 SHA1 service, using build5 script (see also build4 script).
 
-Note that USI v3 has been deprecated, so support for it has been removed.
+* USI v4 Service - https://3pt.portal.usi.gov.au/service/usiservice.svc
+* USI v5 Service - https://3pt.portal.usi.gov.au/service/v5/usiservice.svc
+* STS Service - https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc OR
+* STS Service - https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc
+* keystore-usi.xml - 3PT/EVTE M2M credentials (which replace AUSkey Device credentials)
 
-* USI v4 Service https://3pt.portal.usi.gov.au/Service/UsiService.svc
-* STS Service https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc OR
-* STS Service https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc
-* M2M credentials (which replace AUSkey Device credentials)
+Alternatively, see below for PROD (support for v5 pending) for  which uses:
 
-Alternatively, see below for PROD which uses:
+* USI v4 Service - https://portal.usi.gov.au/service/usiservice.svc
+* USI v5 Service - https://portal.usi.gov.au/service/v5/usiservice.svc
+* STS Service - https://softwareauthorisations.ato.gov.au/R3.0/S007v1.2/service.svc OR
+* STS Service - https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc
+* Provide your own keystore.xml file (with "machine" credentials) from https://authorisationmanager.gov.au/
 
-* USI v4 Service https://portal.usi.gov.au/Service/UsiService.svc
-* STS Service https://softwareauthorisations.ato.gov.au/R3.0/S007v1.2/service.svc OR
-* STS Service https://softwareauthorisations.ato.gov.au/R3.0/S007v1.3/service.svc
-
-Important note:
-The v4 service is due to be deprecated around August 2023.
-This version includes support for the v5 service (see build5) in 3PT. PROD support will be added after suitable testing.
+**Important note:** The v4 service is deprecated and is due to be removed around August 2023.
 
 WSDLs
 =====
@@ -26,21 +25,25 @@ The WSDLs used are NOT those hosted on the USI site. Instead local modified copi
 
 * remove the MEX call as this is not supported by the STS
 * configure the STS including claims
-* full specify use of sha256 (otherwise some aspects fall back to sha1)
+* fully specify use of sha256 (otherwise some aspects fall back to sha1)
 
 Files:
 
-* USI v4: See srcv4/wsdls for the modified versions using the STS v1.2 or v1.3 service
-    - 3PT: https://3pt.portal.usi.gov.au/Service/v3/UsiCreateService.wsdl
-    - PROD: https://portal.usi.gov.au/Service/v3/UsiCreateService.wsdl
+See srcv4/wsdls and srcv5/wsdls for the modified versions using the STS v1.2 or v1.3 service
+* USI v4:
+    - 3PT: https://3pt.portal.usi.gov.au/service/usiservice.wsdl
+    - PROD: https://portal.usi.gov.au/service/usiservice.wsdl
+* USI v5:
+    - 3PT: https://3pt.portal.usi.gov.au/service/v5/usiservice.wsdl
+    - PROD: https://portal.usi.gov.au/service/v5/usiservice.wsdl
 
 Building
 ========
 
 Either use:
 
-* IDE - use gh to fetch the jars (see comment in build)
-* ANT - see build4 (USI v4)
+* IDE - use gh to fetch the jars (see comment in build files)
+* ANT - see build4 (USI v4) or  build5 (USI v5)
 
 Tested platforms: Windows 10, MacOS, Linux
 
@@ -53,22 +56,27 @@ Using ANT
 
 See the input vars in build.xml.
 
-e.g.
+e.g. the following do the same 
 
-  * ant -Dusiver=4 -Denv=PROD getjars wsdl jar runUSITest
+  * ant
+  * ant buildall
+  * ant -Dusiver=5 -Dstsver=12 -Denv=3PT dumpvars getjars wsdl jar runUSITest
+
+or to skip tests
+  * ant build
 
 or seperately run targets
   * ant getjars
-  * ant -Dusiver=4 -Denv=PROD wsdl
-  * ant -Dusiver=4 jar
-  * ant -Dusiver=4 runUSITest
+  * ant -Dusiver=5 -Denv=3PT wsdl
+  * ant -Dusiver=5 jar
+  * ant -Dusiver=5 runUSITest
 
-will generate files for USI v4 for production use (requires a valid production keystore file to run).
+will generate files for USI v5 for 3PT use (PROD requires a valid production keystore file to run).
 The wsdl target will setup the appgen.properties file and
 copy the application.<env>.properties to application.properties where <env> is 3PT or PROD.
 
-Variables exist to set:
-  * USI v3 or v4 service (v3 no longer supported)
+Variables exist, in build.xml, to set:
+  * USI v4 or v5 service
   * 3PT or PROD
   * STS v1.2 or v1.3
 
@@ -78,6 +86,7 @@ In application.properties there are some values that can be set at runtime:
   * alias_local=ABRD:27809366375_USIMachine
   * alias_cloud=ABRD:11000002568_INGLETON153
 
+Note: application.properties is overwritten at build time (wsdlpatch) by either of application.3PT.properties or application.PROD.properties.
 
 Dependencies (built and tested with)
 ============
@@ -118,21 +127,20 @@ The build3/4 scripts will fetch the dependent libs into the lib subfolder:
 Structure
 =========
 
+where N = 4 or 5
+
 * build.xml
     - see Building
 * keystore/
     - the M2M credentials used in testing 3PT
 * application.properties, etc
     - used by the sample apps. See content for more info.
-* srcv4/usi
-    - the USI sample app for USI v4
-* srcv4/au
-    - the pre-generated output of wsdl2java (see wsdl target in build.xml)
-    - the files are the same for 3PT or PROD so there is no need to regenerate (unless the service definition changes)
-* srcv4/wsdls
+* srcvN/usi
+    - the USI sample app for USI vN
+* srcvN/wsdls
     - UsiService_EEE_stsSS.wsdl (where EEE=3PT or PROD; SS=12 (sha1) or 13 (sha256))
     - contains numerous changes to support *client* side calls
-* srcv4/META-INF
+* srcvN/META-INF
     - the wsdl definition file consumed by the generated source
 * lib
     - where downloaded jars are put

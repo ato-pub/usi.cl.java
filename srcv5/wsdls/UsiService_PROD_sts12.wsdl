@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wsdl:definitions
     name="USIService"
-    targetNamespace="http://usi.gov.au/2020/ws/servicepolicy"
+    targetNamespace="http://usi.gov.au/2022/ws/servicepolicy"
     xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
     xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
     xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
-    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-    xmlns:tns="http://usi.gov.au/2020/ws/servicepolicy"
-    xmlns:u="http://usi.gov.au/2020/ws"
-
-    xmlns:wsa10="http://www.w3.org/2005/08/addressing"
+    xmlns:tns="http://usi.gov.au/2022/ws/servicepolicy"
+    xmlns:u="http://usi.gov.au/2022/ws"
+    xmlns:u4="http://usi.gov.au/2020/ws"
     xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+    xmlns:wsa10="http://www.w3.org/2005/08/addressing"
     xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
     xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
     xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
@@ -19,7 +19,7 @@
     xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
     xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    >
+>
   <wsp:Policy wsu:Id="WS2007FederationHttpBinding_IUSIService_policy">
     <wsp:ExactlyOne>
       <wsp:All>
@@ -35,19 +35,6 @@
                 <sp:Basic256 />
               </wsp:Policy>
             </sp:AlgorithmSuite>
-            <!-- some possible values
-                 <sp:AlgorithmSuite>
-                 <wsp:Policy>
-                 <sp:Basic256/>
-                 </wsp:Policy>
-                 </sp:AlgorithmSuite>
-                 original
-                 <sp:AlgorithmSuite signatureAlgorithm="SHA256withRSA">
-                 <wsp:Policy>
-                 <sp:Basic256Sha256Rsa15/>
-                 </wsp:Policy>
-                 </sp:AlgorithmSuite>
-            -->
             <sp:Layout>
               <wsp:Policy>
                 <sp:Strict />
@@ -59,18 +46,6 @@
         <sp:EndorsingSupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
           <wsp:Policy>
             <sp:IssuedToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
-              <!--Issuer xmlns="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-                   <Address xmlns="http://www.w3.org/2005/08/addressing">https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc</Address>
-                   <Metadata xmlns="http://www.w3.org/2005/08/addressing">
-                   <Metadata xmlns="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                   <wsx:MetadataSection xmlns="">
-                   <wsx:MetadataReference>
-                   <Address xmlns="http://www.w3.org/2005/08/addressing">https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc/mex</Address>
-                   </wsx:MetadataReference>
-                   </wsx:MetadataSection>
-                   </Metadata>
-                   </Metadata>
-                   </Issuer-->
               <trust:Claims Dialect="http://schemas.xmlsoap.org/ws/2005/05/identity" xmlns:wsid="http://schemas.xmlsoap.org/ws/2005/05/identity" xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
                 <wsid:ClaimType Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/credentialtype" />
                 <wsid:ClaimType Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/abn" />
@@ -82,13 +57,6 @@
                 <trust:RequestType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issuee</trust:RequestType>
                 <trust:TokenType>http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1</trust:TokenType>
                 <trust:CanonicalizationAlgorithm>http://www.w3.org/2001/10/xml-exc-c14n#</trust:CanonicalizationAlgorithm>
-                <!--
-                     <trust:SignatureAlgorithm>http://www.w3.org/2001/04/xmldsig-more#rsa-sha256</trust:SignatureAlgorithm>
-                     <trust:SignatureAlgorithm>http://www.w3.org/2000/09/xmldsig#hmac-sha1</trust:SignatureAlgorithm>
-                     <trust:EncryptWith>http://www.w3.org/2001/04/xmlenc#aes256-cbc</trust:EncryptWith>
-                     <trust:SignWith>http://www.w3.org/2000/09/xmldsig#hmac-sha1</trust:SignWith>
-                     <trust:EncryptionAlgorithm>http://www.w3.org/2001/04/xmlenc#aes256-cbc</trust:EncryptionAlgorithm>
-                -->
               </sp:RequestSecurityTokenTemplate>
               <wsp:Policy>
                 <sp:RequireInternalReference />
@@ -105,14 +73,25 @@
           </wsp:Policy>
         </sp:Trust13>
         <wsaw:UsingAddressing />
-        <trust:PreconfiguredSTS xmlns:trust="http://schemas.sun.com/ws/2006/05/trust/client" xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy" wspp:visibility="private" shareToken="true" renewExpiredToken="true" wstVersion="http://docs.oasis-open.org/ws-sx/ws-trust/200512" endpoint="https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc" wsdlLocation="https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc" serviceName="SecurityTokenService" portName="S007SecurityTokenServiceEndpoint" namespace="http://schemas.microsoft.com/ws/2008/06/identity/securitytokenservice">
+        <trust:PreconfiguredSTS
+            xmlns:trust="http://schemas.sun.com/ws/2006/05/trust/client"
+            xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy"
+            wspp:visibility="private"
+            shareToken="true"
+            renewExpiredToken="true"
+            wstVersion="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
+            endpoint="https://softwareauthorisations.ato.gov.au/R3.0/S007v1.2/service.svc"
+            wsdlLocation="https://softwareauthorisations.ato.gov.au/R3.0/S007v1.2/service.svc"
+            serviceName="SecurityTokenService"
+            portName="S007SecurityTokenServiceEndpoint"
+            namespace="http://schemas.microsoft.com/ws/2008/06/identity/securitytokenservice">
           <trust:LifeTime>1200000</trust:LifeTime>
         </trust:PreconfiguredSTS>
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
   <wsdl:types>
-    <xs:schema targetNamespace="http://usi.gov.au/2020/ws" elementFormDefault="qualified" xmlns="http://usi.gov.au/2020/ws" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:schema targetNamespace="http://usi.gov.au/2022/ws" elementFormDefault="qualified" xmlns="http://usi.gov.au/2022/ws" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:element name="BulkUpload" type="BulkUploadType" />
       <xs:element name="BulkUploadResponse" type="BulkUploadResponseType" />
       <xs:element name="BulkUploadRetrieve" type="BulkUploadRetrieveType" />
@@ -361,10 +340,10 @@
               </xs:element>
               <xs:element name="RegistrationState" type="StateListType" />
               <xs:element name="RegistrationDate" minOccurs="0" type="xs:date" />
-              <!--<xs:element name="RegistrationYear" type="YearListType" minOccurs="0" />-->
-              <!--User story 709: RegistrationYear not required.-->
+              <!-- <xs:element name="RegistrationYear" type="YearListType" minOccurs="0" /> -->
+              <!-- User story 709: RegistrationYear not required. -->
               <xs:element name="DatePrinted" minOccurs="0" type="xs:date" />
-              <!--User story 709: DatePrinted is required for ACT and SA.-->
+              <!-- User story 709: DatePrinted is required for ACT and SA. -->
               <xs:element name="CertificateNumber" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -750,7 +729,7 @@
                 </xs:simpleType>
               </xs:element>
               <xs:element name="Name">
-                <!--The sequence in which the elements are defined must match up with the data contract-->
+                <!-- The sequence in which the elements are defined must match up with the data contract -->
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="32" />
@@ -1237,6 +1216,8 @@
           <xs:pattern value="[0-9]*" />
         </xs:restriction>
       </xs:simpleType>
+    </xs:schema>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://usi.gov.au/2020/ws" elementFormDefault="qualified" targetNamespace="http://usi.gov.au/2020/ws">
       <xs:complexType name="ErrorInfo">
         <xs:sequence>
           <xs:element type="xs:int" name="Code" />
@@ -1260,10 +1241,10 @@
     <wsdl:part name="out" element="u:BulkUploadResponse" />
   </wsdl:message>
   <wsdl:message name="IUSIService_BulkUpload_ErrorInfoFault_FaultMessage">
-    <wsdl:part name="detailList" element="u:ArrayOfErrorInfo" />
+    <wsdl:part name="detailList" element="u4:ArrayOfErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_BulkUpload_ErrorInfoFault_FaultMessage_Single">
-    <wsdl:part name="detail" element="u:ErrorInfo" />
+    <wsdl:part name="detail" element="u4:ErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_BulkVerifyUSI_InputMessage">
     <wsdl:part name="in" element="u:BulkVerifyUSI" />
@@ -1272,10 +1253,10 @@
     <wsdl:part name="out" element="u:BulkVerifyUSIResponse" />
   </wsdl:message>
   <wsdl:message name="IUSIService_BulkVerifyUSI_ErrorInfoFault_FaultMessage">
-    <wsdl:part name="detailList" element="u:ArrayOfErrorInfo" />
+    <wsdl:part name="detailList" element="u4:ArrayOfErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_BulkVerifyUSI_ErrorInfoFault_FaultMessage_Single">
-    <wsdl:part name="detail" element="u:ErrorInfo" />
+    <wsdl:part name="detail" element="u4:ErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_VerifyUSI_InputMessage">
     <wsdl:part name="in" element="u:VerifyUSI" />
@@ -1284,10 +1265,10 @@
     <wsdl:part name="out" element="u:VerifyUSIResponse" />
   </wsdl:message>
   <wsdl:message name="IUSIService_VerifyUSI_ErrorInfoFault_FaultMessage">
-    <wsdl:part name="detailList" element="u:ArrayOfErrorInfo" />
+    <wsdl:part name="detailList" element="u4:ArrayOfErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_VerifyUSI_ErrorInfoFault_FaultMessage_Single">
-    <wsdl:part name="detail" element="u:ErrorInfo" />
+    <wsdl:part name="detail" element="u4:ErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_BulkUploadRetrieve_InputMessage">
     <wsdl:part name="in" element="u:BulkUploadRetrieve" />
@@ -1296,10 +1277,10 @@
     <wsdl:part name="out" element="u:BulkUploadRetrieveResponse" />
   </wsdl:message>
   <wsdl:message name="IUSIService_BulkUploadRetrieve_ErrorInfoFault_FaultMessage">
-    <wsdl:part name="detailList" element="u:ArrayOfErrorInfo" />
+    <wsdl:part name="detailList" element="u4:ArrayOfErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_BulkUploadRetrieve_ErrorInfoFault_FaultMessage_Single">
-    <wsdl:part name="detail" element="u:ErrorInfo" />
+    <wsdl:part name="detail" element="u4:ErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_CreateUSI_InputMessage">
     <wsdl:part name="in" element="u:CreateUSI" />
@@ -1308,10 +1289,10 @@
     <wsdl:part name="out" element="u:CreateUSIResponse" />
   </wsdl:message>
   <wsdl:message name="IUSIService_CreateUSI_ErrorInfoFault_FaultMessage">
-    <wsdl:part name="detail" element="u:ArrayOfErrorInfo" />
+    <wsdl:part name="detail" element="u4:ArrayOfErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_CreateUSI_ErrorInfoFault_FaultMessage_Single">
-    <wsdl:part name="detailList" element="u:ErrorInfo" />
+    <wsdl:part name="detailList" element="u4:ErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_GetNonDvsDocumentTypes_InputMessage">
     <wsdl:part name="in" element="u:GetNonDvsDocumentTypes" />
@@ -1320,10 +1301,10 @@
     <wsdl:part name="out" element="u:GetNonDvsDocumentTypesResponse" />
   </wsdl:message>
   <wsdl:message name="IUSIService_GetNonDvsDocumentTypes_ErrorInfoFault_FaultMessage_Single">
-    <wsdl:part name="detail" element="u:ErrorInfo" />
+    <wsdl:part name="detail" element="u4:ErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_GetNonDvsDocumentTypes_ErrorInfoFault_FaultMessage">
-    <wsdl:part name="detailList" element="u:ArrayOfErrorInfo" />
+    <wsdl:part name="detailList" element="u4:ArrayOfErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_UpdateUSIContactDetails_InputMessage">
     <wsdl:part name="in" element="u:UpdateUSIContactDetails" />
@@ -1332,10 +1313,10 @@
     <wsdl:part name="out" element="u:UpdateUSIContactDetailsResponse" />
   </wsdl:message>
   <wsdl:message name="IUSIService_UpdateUSIContactDetails_ErrorInfoFault_FaultMessage_Single">
-    <wsdl:part name="detail" element="u:ErrorInfo" />
+    <wsdl:part name="detail" element="u4:ErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_UpdateUSIContactDetails_ErrorInfoFault_FaultMessage">
-    <wsdl:part name="detailList" element="u:ArrayOfErrorInfo" />
+    <wsdl:part name="detailList" element="u4:ArrayOfErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_UpdateUSIPersonalDetails_InputMessage">
     <wsdl:part name="in" element="u:UpdateUSIPersonalDetails" />
@@ -1344,10 +1325,10 @@
     <wsdl:part name="out" element="u:UpdateUSIPersonalDetailsResponse" />
   </wsdl:message>
   <wsdl:message name="IUSIService_UpdateUSIPersonalDetails_ErrorInfoFault_FaultMessage_Single">
-    <wsdl:part name="detail" element="u:ErrorInfo" />
+    <wsdl:part name="detail" element="u4:ErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_UpdateUSIPersonalDetails_ErrorInfoFault_FaultMessage">
-    <wsdl:part name="detailList" element="u:ArrayOfErrorInfo" />
+    <wsdl:part name="detailList" element="u4:ArrayOfErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_LocateUSI_InputMessage">
     <wsdl:part name="in" element="u:LocateUSI" />
@@ -1356,10 +1337,10 @@
     <wsdl:part name="out" element="u:LocateUSIResponse" />
   </wsdl:message>
   <wsdl:message name="IUSIService_LocateUSI_ErrorInfoFault_FaultMessage_Single">
-    <wsdl:part name="detail" element="u:ErrorInfo" />
+    <wsdl:part name="detail" element="u4:ErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_LocateUSI_ErrorInfoFault_FaultMessage">
-    <wsdl:part name="detailList" element="u:ArrayOfErrorInfo" />
+    <wsdl:part name="detailList" element="u4:ArrayOfErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_GetCountries_InputMessage">
     <wsdl:part name="in" element="u:GetCountries" />
@@ -1368,78 +1349,78 @@
     <wsdl:part name="out" element="u:GetCountriesResponse" />
   </wsdl:message>
   <wsdl:message name="IUSIService_GetCountries_ErrorInfoFault_FaultMessage_Single">
-    <wsdl:part name="detail" element="u:ErrorInfo" />
+    <wsdl:part name="detail" element="u4:ErrorInfo" />
   </wsdl:message>
   <wsdl:message name="IUSIService_GetCountries_ErrorInfoFault_FaultMessage">
-    <wsdl:part name="detailList" element="u:ArrayOfErrorInfo" />
+    <wsdl:part name="detailList" element="u4:ArrayOfErrorInfo" />
   </wsdl:message>
   <wsdl:portType name="IUSIService">
     <wsdl:operation name="BulkUpload">
-      <wsdl:input wsaw:Action="http://usi.gov.au/2020/ws/BulkUpload" message="tns:IUSIService_BulkUpload_InputMessage" />
-      <wsdl:output wsaw:Action="http://usi.gov.au/2020/ws/BulkUploadResponse" message="tns:IUSIService_BulkUpload_OutputMessage" />
-      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/BulkUploadResponseErrorInfoFault" message="tns:IUSIService_BulkUpload_ErrorInfoFault_FaultMessage" />
-      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/BulkUploadResponseErrorInfoFault" message="tns:IUSIService_BulkUpload_ErrorInfoFault_FaultMessage_Single" />
+      <wsdl:input wsaw:Action="http://usi.gov.au/2022/ws/BulkUpload" message="tns:IUSIService_BulkUpload_InputMessage" />
+      <wsdl:output wsaw:Action="http://usi.gov.au/2022/ws/BulkUploadResponse" message="tns:IUSIService_BulkUpload_OutputMessage" />
+      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/BulkUploadResponseErrorInfoFault" message="tns:IUSIService_BulkUpload_ErrorInfoFault_FaultMessage" />
+      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/BulkUploadResponseErrorInfoFault" message="tns:IUSIService_BulkUpload_ErrorInfoFault_FaultMessage_Single" />
     </wsdl:operation>
     <wsdl:operation name="BulkVerifyUSI">
-      <wsdl:input wsaw:Action="http://usi.gov.au/2020/ws/BulkVerifyUSI" message="tns:IUSIService_BulkVerifyUSI_InputMessage" />
-      <wsdl:output wsaw:Action="http://usi.gov.au/2020/ws/BulkVerifyUSIResponse" message="tns:IUSIService_BulkVerifyUSI_OutputMessage" />
-      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/BulkVerifyUSIResponseErrorInfoFault" message="tns:IUSIService_CreateUSI_ErrorInfoFault_FaultMessage" />
-      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/BulkVerifyUSIResponseErrorInfoFault" message="tns:IUSIService_BulkVerifyUSI_ErrorInfoFault_FaultMessage_Single" />
+      <wsdl:input wsaw:Action="http://usi.gov.au/2022/ws/BulkVerifyUSI" message="tns:IUSIService_BulkVerifyUSI_InputMessage" />
+      <wsdl:output wsaw:Action="http://usi.gov.au/2022/ws/BulkVerifyUSIResponse" message="tns:IUSIService_BulkVerifyUSI_OutputMessage" />
+      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/BulkVerifyUSIResponseErrorInfoFault" message="tns:IUSIService_CreateUSI_ErrorInfoFault_FaultMessage" />
+      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/BulkVerifyUSIResponseErrorInfoFault" message="tns:IUSIService_BulkVerifyUSI_ErrorInfoFault_FaultMessage_Single" />
     </wsdl:operation>
     <wsdl:operation name="VerifyUSI">
-      <wsdl:input wsaw:Action="http://usi.gov.au/2020/ws/VerifyUSI" message="tns:IUSIService_VerifyUSI_InputMessage" />
-      <wsdl:output wsaw:Action="http://usi.gov.au/2020/ws/VerifyUSIResponse" message="tns:IUSIService_VerifyUSI_OutputMessage" />
-      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/VerifyUSIResponseErrorInfoFault" message="tns:IUSIService_VerifyUSI_ErrorInfoFault_FaultMessage" />
-      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/VerifyUSIResponseErrorInfoFault" message="tns:IUSIService_VerifyUSI_ErrorInfoFault_FaultMessage_Single" />
+      <wsdl:input wsaw:Action="http://usi.gov.au/2022/ws/VerifyUSI" message="tns:IUSIService_VerifyUSI_InputMessage" />
+      <wsdl:output wsaw:Action="http://usi.gov.au/2022/ws/VerifyUSIResponse" message="tns:IUSIService_VerifyUSI_OutputMessage" />
+      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/VerifyUSIResponseErrorInfoFault" message="tns:IUSIService_VerifyUSI_ErrorInfoFault_FaultMessage" />
+      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/VerifyUSIResponseErrorInfoFault" message="tns:IUSIService_VerifyUSI_ErrorInfoFault_FaultMessage_Single" />
     </wsdl:operation>
     <wsdl:operation name="BulkUploadRetrieve">
-      <wsdl:input wsaw:Action="http://usi.gov.au/2020/ws/BulkUploadRetrieve" message="tns:IUSIService_BulkUploadRetrieve_InputMessage" />
-      <wsdl:output wsaw:Action="http://usi.gov.au/2020/ws/BulkUploadRetrieveResponse" message="tns:IUSIService_BulkUploadRetrieve_OutputMessage" />
-      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/BulkUploadRetrieveResponseErrorInfoFault" message="tns:IUSIService_BulkUploadRetrieve_ErrorInfoFault_FaultMessage" />
-      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/BulkUploadRetrieveResponseErrorInfoFault" message="tns:IUSIService_BulkUploadRetrieve_ErrorInfoFault_FaultMessage_Single" />
+      <wsdl:input wsaw:Action="http://usi.gov.au/2022/ws/BulkUploadRetrieve" message="tns:IUSIService_BulkUploadRetrieve_InputMessage" />
+      <wsdl:output wsaw:Action="http://usi.gov.au/2022/ws/BulkUploadRetrieveResponse" message="tns:IUSIService_BulkUploadRetrieve_OutputMessage" />
+      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/BulkUploadRetrieveResponseErrorInfoFault" message="tns:IUSIService_BulkUploadRetrieve_ErrorInfoFault_FaultMessage" />
+      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/BulkUploadRetrieveResponseErrorInfoFault" message="tns:IUSIService_BulkUploadRetrieve_ErrorInfoFault_FaultMessage_Single" />
     </wsdl:operation>
     <wsdl:operation name="CreateUSI">
-      <wsdl:input wsaw:Action="http://usi.gov.au/2020/ws/CreateUSI" message="tns:IUSIService_CreateUSI_InputMessage" />
-      <wsdl:output wsaw:Action="http://usi.gov.au/2020/ws/CreateUSIResponse" message="tns:IUSIService_CreateUSI_OutputMessage" />
-      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/CreateUSIResponseErrorInfoFault" message="tns:IUSIService_CreateUSI_ErrorInfoFault_FaultMessage" />
-      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/CreateUSIResponseErrorInfoFault" message="tns:IUSIService_CreateUSI_ErrorInfoFault_FaultMessage_Single" />
+      <wsdl:input wsaw:Action="http://usi.gov.au/2022/ws/CreateUSI" message="tns:IUSIService_CreateUSI_InputMessage" />
+      <wsdl:output wsaw:Action="http://usi.gov.au/2022/ws/CreateUSIResponse" message="tns:IUSIService_CreateUSI_OutputMessage" />
+      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/CreateUSIResponseErrorInfoFault" message="tns:IUSIService_CreateUSI_ErrorInfoFault_FaultMessage" />
+      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/CreateUSIResponseErrorInfoFault" message="tns:IUSIService_CreateUSI_ErrorInfoFault_FaultMessage_Single" />
     </wsdl:operation>
     <wsdl:operation name="GetNonDvsDocumentTypes">
-      <wsdl:input wsaw:Action="http://usi.gov.au/2020/ws/GetNonDvsDocumentTypes" message="tns:IUSIService_GetNonDvsDocumentTypes_InputMessage" />
-      <wsdl:output wsaw:Action="http://usi.gov.au/2020/ws/GetNonDvsDocumentTypesResponse" message="tns:IUSIService_GetNonDvsDocumentTypes_OutputMessage" />
-      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/GetNonDvsDocumentTypesResponseErrorInfoFault" message="tns:IUSIService_GetNonDvsDocumentTypes_ErrorInfoFault_FaultMessage" />
-      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/GetNonDvsDocumentTypesResponseErrorInfoFault" message="tns:IUSIService_GetNonDvsDocumentTypes_ErrorInfoFault_FaultMessage_Single" />
+      <wsdl:input wsaw:Action="http://usi.gov.au/2022/ws/GetNonDvsDocumentTypes" message="tns:IUSIService_GetNonDvsDocumentTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://usi.gov.au/2022/ws/GetNonDvsDocumentTypesResponse" message="tns:IUSIService_GetNonDvsDocumentTypes_OutputMessage" />
+      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/GetNonDvsDocumentTypesResponseErrorInfoFault" message="tns:IUSIService_GetNonDvsDocumentTypes_ErrorInfoFault_FaultMessage" />
+      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/GetNonDvsDocumentTypesResponseErrorInfoFault" message="tns:IUSIService_GetNonDvsDocumentTypes_ErrorInfoFault_FaultMessage_Single" />
     </wsdl:operation>
     <wsdl:operation name="UpdateUSIContactDetails">
-      <wsdl:input wsaw:Action="http://usi.gov.au/2020/ws/UpdateUSIContactDetails" message="tns:IUSIService_UpdateUSIContactDetails_InputMessage" />
-      <wsdl:output wsaw:Action="http://usi.gov.au/2020/ws/UpdateUSIContactDetailsResponse" message="tns:IUSIService_UpdateUSIContactDetails_OutputMessage" />
-      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/UpdateUSIContactDetailsResponseErrorInfoFault" message="tns:IUSIService_UpdateUSIContactDetails_ErrorInfoFault_FaultMessage" />
-      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/UpdateUSIContactDetailsResponseErrorInfoFault" message="tns:IUSIService_UpdateUSIContactDetails_ErrorInfoFault_FaultMessage_Single" />
+      <wsdl:input wsaw:Action="http://usi.gov.au/2022/ws/UpdateUSIContactDetails" message="tns:IUSIService_UpdateUSIContactDetails_InputMessage" />
+      <wsdl:output wsaw:Action="http://usi.gov.au/2022/ws/UpdateUSIContactDetailsResponse" message="tns:IUSIService_UpdateUSIContactDetails_OutputMessage" />
+      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/UpdateUSIContactDetailsResponseErrorInfoFault" message="tns:IUSIService_UpdateUSIContactDetails_ErrorInfoFault_FaultMessage" />
+      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/UpdateUSIContactDetailsResponseErrorInfoFault" message="tns:IUSIService_UpdateUSIContactDetails_ErrorInfoFault_FaultMessage_Single" />
     </wsdl:operation>
     <wsdl:operation name="UpdateUSIPersonalDetails">
-      <wsdl:input wsaw:Action="http://usi.gov.au/2020/ws/UpdateUSIPersonalDetails" message="tns:IUSIService_UpdateUSIPersonalDetails_InputMessage" />
-      <wsdl:output wsaw:Action="http://usi.gov.au/2020/ws/UpdateUSIPersonalDetailsResponse" message="tns:IUSIService_UpdateUSIPersonalDetails_OutputMessage" />
-      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/UpdateUSIPersonalDetailsResponseErrorInfoFault" message="tns:IUSIService_UpdateUSIPersonalDetails_ErrorInfoFault_FaultMessage" />
-      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/UpdateUSIPersonalDetailsResponseErrorInfoFault" message="tns:IUSIService_UpdateUSIPersonalDetails_ErrorInfoFault_FaultMessage_Single" />
+      <wsdl:input wsaw:Action="http://usi.gov.au/2022/ws/UpdateUSIPersonalDetails" message="tns:IUSIService_UpdateUSIPersonalDetails_InputMessage" />
+      <wsdl:output wsaw:Action="http://usi.gov.au/2022/ws/UpdateUSIPersonalDetailsResponse" message="tns:IUSIService_UpdateUSIPersonalDetails_OutputMessage" />
+      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/UpdateUSIPersonalDetailsResponseErrorInfoFault" message="tns:IUSIService_UpdateUSIPersonalDetails_ErrorInfoFault_FaultMessage" />
+      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/UpdateUSIPersonalDetailsResponseErrorInfoFault" message="tns:IUSIService_UpdateUSIPersonalDetails_ErrorInfoFault_FaultMessage_Single" />
     </wsdl:operation>
     <wsdl:operation name="LocateUSI">
-      <wsdl:input wsaw:Action="http://usi.gov.au/2020/ws/LocateUSI" message="tns:IUSIService_LocateUSI_InputMessage" />
-      <wsdl:output wsaw:Action="http://usi.gov.au/2020/ws/LocateUSIResponse" message="tns:IUSIService_LocateUSI_OutputMessage" />
-      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/LocateUSIResponseErrorInfoFault" message="tns:IUSIService_LocateUSI_ErrorInfoFault_FaultMessage" />
-      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/LocateUSIResponseErrorInfoFault" message="tns:IUSIService_LocateUSI_ErrorInfoFault_FaultMessage_Single" />
+      <wsdl:input wsaw:Action="http://usi.gov.au/2022/ws/LocateUSI" message="tns:IUSIService_LocateUSI_InputMessage" />
+      <wsdl:output wsaw:Action="http://usi.gov.au/2022/ws/LocateUSIResponse" message="tns:IUSIService_LocateUSI_OutputMessage" />
+      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/LocateUSIResponseErrorInfoFault" message="tns:IUSIService_LocateUSI_ErrorInfoFault_FaultMessage" />
+      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/LocateUSIResponseErrorInfoFault" message="tns:IUSIService_LocateUSI_ErrorInfoFault_FaultMessage_Single" />
     </wsdl:operation>
     <wsdl:operation name="GetCountries">
-      <wsdl:input wsaw:Action="http://usi.gov.au/2020/ws/GetCountries" message="tns:IUSIService_GetCountries_InputMessage" />
-      <wsdl:output wsaw:Action="http://usi.gov.au/2020/ws/GetCountriesResponse" message="tns:IUSIService_GetCountries_OutputMessage" />
-      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/GetCountriesResponseErrorInfoFault" message="tns:IUSIService_GetCountries_ErrorInfoFault_FaultMessage" />
-      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2020/ws/GetCountriesResponseErrorInfoFault" message="tns:IUSIService_GetCountries_ErrorInfoFault_FaultMessage_Single" />
+      <wsdl:input wsaw:Action="http://usi.gov.au/2022/ws/GetCountries" message="tns:IUSIService_GetCountries_InputMessage" />
+      <wsdl:output wsaw:Action="http://usi.gov.au/2022/ws/GetCountriesResponse" message="tns:IUSIService_GetCountries_OutputMessage" />
+      <wsdl:fault name="ArrayOfErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/GetCountriesResponseErrorInfoFault" message="tns:IUSIService_GetCountries_ErrorInfoFault_FaultMessage" />
+      <wsdl:fault name="ErrorInfoFault" wsaw:Action="http://usi.gov.au/2022/ws/GetCountriesResponseErrorInfoFault" message="tns:IUSIService_GetCountries_ErrorInfoFault_FaultMessage_Single" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WS2007FederationHttpBinding_IUSIService" type="tns:IUSIService">
     <wsp:PolicyReference URI="#WS2007FederationHttpBinding_IUSIService_policy" />
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="BulkUpload">
-      <soap12:operation soapAction="http://usi.gov.au/2020/ws/BulkUpload" style="document" />
+      <soap12:operation soapAction="http://usi.gov.au/2022/ws/BulkUpload" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1447,14 +1428,14 @@
         <soap12:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="ArrayOfErrorInfoFault">
-        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" />
       </wsdl:fault>
       <wsdl:fault name="ErrorInfoFault">
-        <soap12:fault use="literal" name="ErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ErrorInfoFault" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="BulkVerifyUSI">
-      <soap12:operation soapAction="http://usi.gov.au/2020/ws/BulkVerifyUSI" style="document" />
+      <soap12:operation soapAction="http://usi.gov.au/2022/ws/BulkVerifyUSI" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1462,14 +1443,14 @@
         <soap12:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="ArrayOfErrorInfoFault">
-        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" />
       </wsdl:fault>
       <wsdl:fault name="ErrorInfoFault">
-        <soap12:fault use="literal" name="ErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ErrorInfoFault" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="VerifyUSI">
-      <soap12:operation soapAction="http://usi.gov.au/2020/ws/VerifyUSI" style="document" />
+      <soap12:operation soapAction="http://usi.gov.au/2022/ws/VerifyUSI" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1477,14 +1458,14 @@
         <soap12:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="ArrayOfErrorInfoFault">
-        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" />
       </wsdl:fault>
       <wsdl:fault name="ErrorInfoFault">
-        <soap12:fault use="literal" name="ErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ErrorInfoFault" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="BulkUploadRetrieve">
-      <soap12:operation soapAction="http://usi.gov.au/2020/ws/BulkUploadRetrieve" style="document" />
+      <soap12:operation soapAction="http://usi.gov.au/2022/ws/BulkUploadRetrieve" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1492,14 +1473,14 @@
         <soap12:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="ArrayOfErrorInfoFault">
-        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" />
       </wsdl:fault>
       <wsdl:fault name="ErrorInfoFault">
-        <soap12:fault use="literal" name="ErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ErrorInfoFault" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="CreateUSI">
-      <soap12:operation soapAction="http://usi.gov.au/2020/ws/CreateUSI" style="document" />
+      <soap12:operation soapAction="http://usi.gov.au/2022/ws/CreateUSI" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1507,14 +1488,14 @@
         <soap12:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="ArrayOfErrorInfoFault">
-        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" />
       </wsdl:fault>
       <wsdl:fault name="ErrorInfoFault">
-        <soap12:fault use="literal" name="ErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ErrorInfoFault" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetNonDvsDocumentTypes">
-      <soap12:operation soapAction="http://usi.gov.au/2020/ws/GetNonDvsDocumentTypes" style="document" />
+      <soap12:operation soapAction="http://usi.gov.au/2022/ws/GetNonDvsDocumentTypes" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1522,14 +1503,14 @@
         <soap12:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="ArrayOfErrorInfoFault">
-        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" />
       </wsdl:fault>
       <wsdl:fault name="ErrorInfoFault">
-        <soap12:fault use="literal" name="ErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ErrorInfoFault" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="UpdateUSIContactDetails">
-      <soap12:operation soapAction="http://usi.gov.au/2020/ws/UpdateUSIContactDetails" style="document" />
+      <soap12:operation soapAction="http://usi.gov.au/2022/ws/UpdateUSIContactDetails" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1537,14 +1518,14 @@
         <soap12:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="ArrayOfErrorInfoFault">
-        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" />
       </wsdl:fault>
       <wsdl:fault name="ErrorInfoFault">
-        <soap12:fault use="literal" name="ErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ErrorInfoFault" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="UpdateUSIPersonalDetails">
-      <soap12:operation soapAction="http://usi.gov.au/2020/ws/UpdateUSIPersonalDetails" style="document" />
+      <soap12:operation soapAction="http://usi.gov.au/2022/ws/UpdateUSIPersonalDetails" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1552,14 +1533,14 @@
         <soap12:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="ArrayOfErrorInfoFault">
-        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" />
       </wsdl:fault>
       <wsdl:fault name="ErrorInfoFault">
-        <soap12:fault use="literal" name="ErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ErrorInfoFault" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="LocateUSI">
-      <soap12:operation soapAction="http://usi.gov.au/2020/ws/LocateUSI" style="document" />
+      <soap12:operation soapAction="http://usi.gov.au/2022/ws/LocateUSI" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1567,14 +1548,14 @@
         <soap12:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="ArrayOfErrorInfoFault">
-        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" />
       </wsdl:fault>
       <wsdl:fault name="ErrorInfoFault">
-        <soap12:fault use="literal" name="ErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ErrorInfoFault" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetCountries">
-      <soap12:operation soapAction="http://usi.gov.au/2020/ws/GetCountries" style="document" />
+      <soap12:operation soapAction="http://usi.gov.au/2022/ws/GetCountries" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1582,19 +1563,19 @@
         <soap12:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="ArrayOfErrorInfoFault">
-        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ArrayOfErrorInfoFault" />
       </wsdl:fault>
       <wsdl:fault name="ErrorInfoFault">
-        <soap12:fault use="literal" name="ErrorInfoFault" namespace="" />
+        <soap12:fault use="literal" name="ErrorInfoFault" />
       </wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="USIService">
-    <wsdl:documentation>Version: 4.0 Environment: 3PT</wsdl:documentation>
+    <wsdl:documentation>Version: 5.0 Environment: PRODUCTION</wsdl:documentation>
     <wsdl:port name="WS2007FederationHttpBinding_IUSIService" binding="tns:WS2007FederationHttpBinding_IUSIService">
-      <soap12:address location="https://3pt.portal.usi.gov.au/service/usiservice.svc" />
+      <soap12:address location="https://portal.usi.gov.au/service/v5/usiservice.svc" />
       <wsa10:EndpointReference>
-        <wsa10:Address>https://3pt.portal.usi.gov.au/service/usiservice.svc</wsa10:Address>
+        <wsa10:Address>https://portal.usi.gov.au/service/v5/usiservice.svc</wsa10:Address>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>

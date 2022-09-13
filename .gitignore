@@ -1163,3 +1163,6 @@ srcv?/au
 
 # ant build.xml puts prepare/compile/jar outputs in target...
 target*
+
+src*/META-INF/wsdl/
+application.properties

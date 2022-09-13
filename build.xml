@@ -1,9 +1,9 @@
-<project name="USI-sample" default="jar" basedir=".">
+<project name="USI-sample" default="buildall" basedir=".">
 
   <!-- Input vaiables - override using arguments of the form -Dname=value -->
   <property environment="env"/>
   <property name="env" value="3PT"/>
-  <property name="usiver" value="4"/>
+  <property name="usiver" value="5"/>
   <property name="stsver" value="12"/>
   <!-- Input vaiables -->
 
@@ -115,5 +115,9 @@ sts_version=${stsver}
       <sysproperty key="java.security.disableSystemPropertiesFile" value="true"/>
     </java>
   </target>
+
+  <target name="build" depends="dumpvars, getjars, wsdl, jar" />
+
+  <target name="buildall" depends="build, runUSITest" />
 
 </project>
