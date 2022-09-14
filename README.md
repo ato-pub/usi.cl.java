@@ -97,9 +97,9 @@ In a terminal window:
 
 ## 3PT
 
-    ant
+To build and test as above:
 
-will build and test as above.
+    ant
 
 ## PROD
 
@@ -108,9 +108,9 @@ will build and test as above.
     - keystore=keystore/prod.xml
     - alias_local=ABRD:99999999990_CredentialName
 
-    ant -Dusiver=4 -Dstsver=12 -Denv=PROD dumpvars getjars wsdl jar runUSITest
+To build and test for PROD:
 
-will build and test for PROD.
+    ant -Dusiver=4 -Dstsver=12 -Denv=PROD dumpvars getjars wsdl jar runUSITest
 
 # Dependencies
 
