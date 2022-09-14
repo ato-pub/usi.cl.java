@@ -1,3 +1,5 @@
+# Overview
+
 This source is based on the sample JAVA code previously available from https://www.usi.gov.au/system-developers/sample-code
 
 It works as is with USI v5 3PT using the STS 1.2 SHA1 service, using build5 script (see also build4 script).
@@ -18,8 +20,7 @@ Alternatively, see below for PROD (support for v5 pending) for  which uses:
 
 **Important note:** The v4 service is deprecated and is due to be removed around August 2023.
 
-WSDLs
-=====
+# WSDLs
 
 The WSDLs used are NOT those hosted on the USI site. Instead local modified copies are used which:
 
@@ -27,9 +28,8 @@ The WSDLs used are NOT those hosted on the USI site. Instead local modified copi
 * configure the STS including claims
 * fully specify use of sha256 (otherwise some aspects fall back to sha1)
 
-Files:
-
 See srcv4/wsdls and srcv5/wsdls for the modified versions using the STS v1.2 or v1.3 service
+
 * USI v4:
     - 3PT: https://3pt.portal.usi.gov.au/service/usiservice.wsdl
     - PROD: https://portal.usi.gov.au/service/usiservice.wsdl
@@ -37,59 +37,84 @@ See srcv4/wsdls and srcv5/wsdls for the modified versions using the STS v1.2 or 
     - 3PT: https://3pt.portal.usi.gov.au/service/v5/usiservice.wsdl
     - PROD: https://portal.usi.gov.au/service/v5/usiservice.wsdl
 
-Building
-========
+# Building
 
 Either use:
 
 * IDE - use gh to fetch the jars (see comment in build files)
-* ANT - see build4 (USI v4) or  build5 (USI v5)
+* ANT - see build.xml
 
 Tested platforms: Windows 10, MacOS, Linux
 
 Notes on contributions:
 
-1. binaries are banned (use gh)
+* binaries are banned (use gh)
 
-Using ANT
-=========
+# Using ANT
 
 See the input vars in build.xml.
 
 e.g. the following do the same 
 
-  * ant
-  * ant buildall
-  * ant -Dusiver=5 -Dstsver=12 -Denv=3PT dumpvars getjars wsdl jar runUSITest
+* ant
+* ant buildall
+* ant -Dusiver=5 -Dstsver=12 -Denv=3PT dumpvars getjars wsdl jar runUSITest
 
 or to skip tests
-  * ant build
+
+* ant build
 
 or seperately run targets
-  * ant getjars
-  * ant -Dusiver=5 -Denv=3PT wsdl
-  * ant -Dusiver=5 jar
-  * ant -Dusiver=5 runUSITest
+
+* ant getjars
+* ant -Dusiver=5 -Denv=3PT wsdl
+* ant -Dusiver=5 jar
+* ant -Dusiver=5 runUSITest
 
 will generate files for USI v5 for 3PT use (PROD requires a valid production keystore file to run).
+
 The wsdl target will setup the appgen.properties file and
 copy the application.<env>.properties to application.properties where <env> is 3PT or PROD.
 
 Variables exist, in build.xml, to set:
-  * USI v4 or v5 service
-  * 3PT or PROD
-  * STS v1.2 or v1.3
+
+* USI v4 or v5 service
+* 3PT or PROD
+* STS v1.2 or v1.3
 
 In application.properties there are some values that can be set at runtime:
-  * local or cloud (ActAs/Applies)
-  * keystore=keystore/keystore-usi.xml
-  * alias_local=ABRD:27809366375_USIMachine
-  * alias_cloud=ABRD:11000002568_INGLETON153
 
-Note: application.properties is overwritten at build time (wsdlpatch) by either of application.3PT.properties or application.PROD.properties.
+* local or cloud (ActAs/Applies)
+* keystore=keystore/keystore-usi.xml
+* alias_local=ABRD:27809366375_USIMachine
+* alias_cloud=ABRD:11000002568_INGLETON153
 
-Dependencies (built and tested with)
-============
+Note: application.properties is overwritten at build time (wsdlpatch) by either of application.3PT.properties or application.PROD.properties. Any values not set here, will use predefined values in the code.
+
+# Build for
+
+In a terminal window:
+
+## 3PT
+
+    ant
+
+will build and test as above.
+
+## PROD
+
+* Put your production keystore file somewhere e.g. keystore/my-prod-keystore.xml
+* Modify the application.PROD.properties file, e.g.:
+    - keystore=keystore/prod.xml
+    - alias_local=ABRD:99999999990_CredentialName
+
+    ant -Dusiver=4 -Dstsver=12 -Denv=PROD dumpvars getjars wsdl jar runUSITest
+
+will build and test for PROD.
+
+# Dependencies
+
+Built and tested with:
 
 * Eclipse 2020-03 (4.15.0)
     - java-11-openjdk-11
@@ -124,8 +149,7 @@ The build3/4 scripts will fetch the dependent libs into the lib subfolder:
 * webservices-extra.jar
 * webservices-rt.jar
 
-Structure
-=========
+# Structure
 
 where N = 4 or 5
 
@@ -145,8 +169,9 @@ where N = 4 or 5
 * lib
     - where downloaded jars are put
 
-Sample of expected results from run
-================
+# Expected results
+
+Sample of expected results from run:
 
 USI reports an error as the data already exists. However, the transaction did verify successfully.
 
@@ -168,11 +193,9 @@ Failed to create USI record, multiple existing records were found.
 ----------Cannot call Verify, due to errors from Create.
 ```
 
-Notes
-=====
+# Notes
 
-Proxy and Tracing
------
+## Proxy and Tracing
 
 See EnableProxy_FOR_DEBUG_ONLY() to use a proxy such as BURP to capture http/s traffic.
 
