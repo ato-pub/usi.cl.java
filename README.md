@@ -54,7 +54,7 @@ Notes on contributions:
 
 See the input vars in build.xml.
 
-e.g. the following do the same 
+e.g. the following do the same
 
 * ant
 * ant buildall
@@ -124,7 +124,7 @@ Built and tested with:
     - copies used to be hosted by USI Office (as non-SBR providers)
     - for convenience copies are in this repo in Releases
 * If using STS v1.3
-    - modified metro jars available at https://github.com/DamienJDev/metro-wsit/releases (java1.8MetroSigAlgFix.7z)
+    - modified metro jars available at https://github.com/ato-pub/metro-wsit/releases (java1.8MetroSigAlgFix.7z)
     - this allows SHA256 to be specified in the call to the S007v1.3 STS as Metro was defaulting to SHA1 which is not supported
     - copies in this repository for convenience - supports v1.2 and v1.3
 * If using STS v1.2
