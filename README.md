@@ -135,6 +135,8 @@ Built and tested with:
     - used to fetch the dependent jars fromm the repository Releases
 * wsdl2java
     - requires CXF from https://cxf.apache.org/download.html
+    - lasted tested with 3.3.6 (latest 3.x should work)
+    - CXF 4 is NOT supported
 
 Ensure environment variables are set properly
 
@@ -200,4 +202,8 @@ Failed to create USI record, multiple existing records were found.
 See EnableProxy_FOR_DEBUG_ONLY() to use a proxy such as BURP to capture http/s traffic.
 
 soapTracing() is generally sufficient.
+
+## CXF
+
+CXF 4 is not currently supported. Use 3.x
 
