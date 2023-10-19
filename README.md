@@ -6,8 +6,8 @@ It works as is with USI v5 3PT using the STS 1.2 SHA1 service, using build5 scri
 
 * USI v4 Service - https://3pt.portal.usi.gov.au/service/usiservice.svc
 * USI v5 Service - https://3pt.portal.usi.gov.au/service/v5/usiservice.svc
-* STS Service - https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc OR
-* STS Service - https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc
+* STS Service - https://softwareauthorisations.evte.ato.gov.au/R3.0/S007v1.2/service.svc OR
+* STS Service - https://softwareauthorisations.evte.ato.gov.au/R3.0/S007v1.3/service.svc
 * keystore-usi.xml - 3PT/EVTE M2M credentials (which replace AUSkey Device credentials)
 
 Alternatively, see below for PROD (support for v5 pending) for  which uses:
