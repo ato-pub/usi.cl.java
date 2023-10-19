@@ -47,12 +47,12 @@
           <wsp:Policy>
             <sp:IssuedToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
               <Issuer xmlns="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-                <Address xmlns="http://www.w3.org/2005/08/addressing">https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc</Address>
+                <Address xmlns="http://www.w3.org/2005/08/addressing">https://softwareauthorisations.evte.ato.gov.au/R3.0/S007v1.3/service.svc</Address>
                 <Metadata xmlns="http://www.w3.org/2005/08/addressing">
                   <Metadata xmlns="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                     <wsx:MetadataSection xmlns="">
                       <wsx:MetadataReference>
-                        <Address xmlns="http://www.w3.org/2005/08/addressing">https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc/mex</Address>
+                        <Address xmlns="http://www.w3.org/2005/08/addressing">https://softwareauthorisations.evte.ato.gov.au/R3.0/S007v1.3/service.svc/mex</Address>
                       </wsx:MetadataReference>
                     </wsx:MetadataSection>
                   </Metadata>

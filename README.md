@@ -6,8 +6,8 @@ It works as is with USI v5 3PT using the STS 1.2 SHA1 service, using build5 scri
 
 * USI v4 Service - https://3pt.portal.usi.gov.au/service/usiservice.svc
 * USI v5 Service - https://3pt.portal.usi.gov.au/service/v5/usiservice.svc
-* STS Service - https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc OR
-* STS Service - https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.3/service.svc
+* STS Service - https://softwareauthorisations.evte.ato.gov.au/R3.0/S007v1.2/service.svc OR
+* STS Service - https://softwareauthorisations.evte.ato.gov.au/R3.0/S007v1.3/service.svc
 * keystore-usi.xml - 3PT/EVTE M2M credentials (which replace AUSkey Device credentials)
 
 Alternatively, see below for PROD (support for v5 pending) for  which uses:
@@ -135,6 +135,8 @@ Built and tested with:
     - used to fetch the dependent jars fromm the repository Releases
 * wsdl2java
     - requires CXF from https://cxf.apache.org/download.html
+    - lasted tested with 3.3.6 (latest 3.x should work)
+    - CXF 4 is NOT supported
 
 Ensure environment variables are set properly
 
@@ -200,4 +202,8 @@ Failed to create USI record, multiple existing records were found.
 See EnableProxy_FOR_DEBUG_ONLY() to use a proxy such as BURP to capture http/s traffic.
 
 soapTracing() is generally sufficient.
+
+## CXF
+
+CXF 4 is not currently supported. Use 3.x
 

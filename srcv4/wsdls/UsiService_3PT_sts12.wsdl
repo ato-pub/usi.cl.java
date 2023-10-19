@@ -80,8 +80,8 @@
             shareToken="true"
             renewExpiredToken="true"
             wstVersion="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
-            endpoint="https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc"
-            wsdlLocation="https://softwareauthorisations.acc.ato.gov.au/R3.0/S007v1.2/service.svc"
+            endpoint="https://softwareauthorisations.evte.ato.gov.au/R3.0/S007v1.2/service.svc"
+            wsdlLocation="https://softwareauthorisations.evte.ato.gov.au/R3.0/S007v1.2/service.svc"
             serviceName="SecurityTokenService"
             portName="S007SecurityTokenServiceEndpoint"
             namespace="http://schemas.microsoft.com/ws/2008/06/identity/securitytokenservice">
